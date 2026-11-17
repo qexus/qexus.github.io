@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://qexus.github.io/</loc></url>
-  <url><loc>https://qexus.github.io/fisheries/</loc></url>
-  <url><loc>https://qexus.github.io/fisheries-ca/</loc></url>
-  <url><loc>https://qexus.github.io/work.html</loc></url>
-  <url><loc>https://qexus.github.io/site-map.html</loc></url>
-  <url><loc>https://qexus.github.io/privacy.html</loc></url>
-  <url><loc>https://qexus.github.io/status.html</loc></url>
+  <url><loc>https://qexus.github.io/</loc><lastmod>2026-11-17</lastmod></url>
+  <url><loc>https://qexus.github.io/work.html</loc><lastmod>2026-11-17</lastmod></url>
+  <url><loc>https://qexus.github.io/manac/</loc><lastmod>2026-11-17</lastmod></url>
+  <url><loc>https://qexus.github.io/fisheries/</loc><lastmod>2026-11-17</lastmod></url>
+  <url><loc>https://qexus.github.io/fisheries-ca/</loc><lastmod>2026-11-17</lastmod></url>
+  <url><loc>https://qexus.github.io/site-map.html</loc><lastmod>2026-11-17</lastmod></url>
+  <url><loc>https://qexus.github.io/status.html</loc><lastmod>2026-11-17</lastmod></url>
+  <url><loc>https://qexus.github.io/privacy.html</loc><lastmod>2026-11-17</lastmod></url>
   <url><loc>https://qexus.github.io/fisheries/guides/</loc><lastmod>2026-11-17</lastmod></url>
   <url><loc>https://qexus.github.io/fisheries/guides/professions.html</loc><lastmod>2026-11-17</lastmod></url>
   <url><loc>https://qexus.github.io/fisheries/guides/employers.html</loc><lastmod>2026-11-17</lastmod></url>
@@ -41,5 +42,4 @@
   <url><loc>https://qexus.github.io/fisheries-ca/guides/lesson-10.html</loc><lastmod>2026-11-17</lastmod></url>
   <url><loc>https://qexus.github.io/fisheries-ca/guides/lesson-11.html</loc><lastmod>2026-11-17</lastmod></url>
   <url><loc>https://qexus.github.io/fisheries-ca/guides/lesson-12.html</loc><lastmod>2026-11-17</lastmod></url>
-  <url><loc>https://qexus.github.io/manac/</loc><lastmod>2026-11-17</lastmod></url>
 </urlset>
