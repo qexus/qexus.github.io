@@ -58,7 +58,7 @@ function localizeLinks(root){
     const url=new URL(raw,location.href);
     if(url.origin!==siteRoot)continue;
     else if(lang!=='ru'){
-    const localized=staticLocalizedPath(url.pathname,lang);
+    const localized=url.searchParams.has('view')||url.searchParams.has('lesson')?null:staticLocalizedPath(url.pathname,lang);
     if(localized){url.pathname=localized;url.searchParams.delete('lang');a.href=url.href}
     else if(url.searchParams.get('lang')!==lang){url.searchParams.set('lang',lang);a.href=url.href}
    }
@@ -72,7 +72,7 @@ function renderSwitch(){
  for(const [key,t] of Object.entries({ru:'RU',fr:'FR',uk:'UK'})){
    const a=document.createElement('a');
    const url=new URL(location.href);
-   if(key==='ru')url.searchParams.delete('lang');else {const staticPath=staticLocalizedPath(url.pathname,key);if(staticPath){url.pathname=staticPath;url.searchParams.delete('lang')}else url.searchParams.set('lang',key)}
+   if(key==='ru')url.searchParams.delete('lang');else {const staticPath=url.searchParams.has('view')||url.searchParams.has('lesson')?null:staticLocalizedPath(url.pathname,key);if(staticPath){url.pathname=staticPath;url.searchParams.delete('lang')}else url.searchParams.set('lang',key)}
    a.href=url.pathname+url.search+url.hash;
    a.textContent=t;a.setAttribute('hreflang',key);
    a.title=current[key];
