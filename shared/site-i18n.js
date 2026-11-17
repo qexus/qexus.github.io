@@ -35,17 +35,17 @@ function translateElement(root){
 function localizeLinks(root){
  const anchors=root.matches?.('a[href]')?[root,...root.querySelectorAll('a[href]')]:root.querySelectorAll('a[href]');
  for(const a of anchors){
+  if(a.closest('.qx-language-switch'))continue;
   const raw=a.getAttribute('href');
   if(!raw||raw.startsWith('mailto:')||raw.startsWith('tel:')||raw.startsWith('javascript:'))continue;
   try{
     const url=new URL(raw,location.href);
-    if(url.origin!==siteRoot)returnGuard();
+    if(url.origin!==siteRoot)continue;
     else if(lang!=='ru'){if(url.searchParams.get('lang')!==lang){url.searchParams.set('lang',lang);a.href=url.href}}
     else if(url.searchParams.has('lang')){url.searchParams.delete('lang');a.href=url.href}
   }catch{}
  }
 }
-function returnGuard(){} // no external links are modified
 function renderSwitch(){
  if(document.querySelector('.qx-language-switch'))return;
  const nav=document.createElement('nav');nav.className='qx-language-switch';nav.setAttribute('aria-label',label[lang]);
