@@ -19,3 +19,14 @@
 .qf-matrix-note{border-left:3px solid #ffc978;background:#302e26;color:#e7d7ae;font-size:13px;line-height:1.7}
 @media(max-width:750px){.qf-panel,.qf-study,.qf-matrix-note{padding:15px}.qf-grid{grid-template-columns:1fr}.qf-links{align-items:stretch}}
 @media(prefers-reduced-motion:reduce){.qf-link,.qf-next{transition:none!important}}
+
+/* Visitor-triggered published-registry refresh, with honest data provenance. */
+.qf-refresh{border:1px solid #2e5868;background:linear-gradient(120deg,#0d2b3a,#0b2435);border-radius:13px;padding:17px 19px;margin:0 0 20px;display:flex;align-items:center;gap:14px;justify-content:space-between;flex-wrap:wrap}
+.qf-refresh-details{display:flex;flex-direction:column;gap:5px;min-width:0;flex:1 1 200px}
+.qf-refresh-details strong{font-size:15px;color:#eaf8f8}
+.qf-refresh-meta{font-size:12px;color:#9bc1c9;line-height:1.55}
+.qf-refresh-button{white-space:nowrap;min-height:40px}
+.qf-refresh-button:disabled{opacity:.6;cursor:progress}
+.qf-refresh-hint,.qf-refresh-result{width:100%;font-size:11px;color:#91abb6;line-height:1.6;margin:0}
+.qf-refresh-result{color:#9ee6d9;font-weight:600;border-top:1px solid #315365;padding-top:9px}
+@media(max-width:480px){.qf-refresh{padding:14px}.qf-refresh-button{width:100%}}
