@@ -1,0 +1,28 @@
+name: qexus lab · Daily site health
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '37 10 * * *' # daily 10:37 UTC, best effort
+permissions:
+  contents: read
+jobs:
+  monitor:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Test health-check rules
+        run: python -m unittest discover -s tests -v
+      - name: Check all three public sites and official snapshot sizes
+        run: python scripts/monitor_sites.py --output site-health.json
+      - name: Attach read-only health report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: qexus-health-report
+          path: site-health.json
+          if-no-files-found: warn
+          retention-days: 14
