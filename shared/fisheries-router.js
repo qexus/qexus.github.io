@@ -100,7 +100,7 @@
     if (extra) extra.open = true;
     document.title = (window.qxTranslate?.(names[view] || "Обзор") || names[view] || "Обзор") + " — Fisheries " + country + " · qexus lab";
     const breadcrumb = document.getElementById("crumb") || document.getElementById("viewName");
-    if (breadcrumb) breadcrumb.textContent = names[view] || "Обзор";
+    if (breadcrumb) breadcrumb.textContent = window.qxTranslate?.(names[view] || "Обзор") || names[view] || "Обзор";
     const toggle = document.getElementById("menuToggle");
     if (toggle) toggle.setAttribute("aria-label",
       window.qxTranslate?.(toggle.getAttribute("aria-expanded") === "true" ? "Закрыть меню" : "Открыть меню") || (toggle.getAttribute("aria-expanded") === "true" ? "Закрыть меню" : "Открыть меню"));
