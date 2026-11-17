@@ -10,7 +10,7 @@
     dashboard: "Обзор", companies: "Предприятия", jobs: "Объявления",
     fleets: "Флот", aquaculture: "Аквакультура", curriculum: "Обучение",
     matrix: "Профессии и сертификаты", employers: "Работа и контакты",
-    glossary: "Словарь", documents: "Документы", salary: "Калькулятор",
+    glossary: "Словарь", documents: "Документы", salary: "Калькулятор", career: "План отклика", cert: "Курсы и цены", library: "Библиотека ведомств",
     sources: "Источники", import: "Импорт"
   };
   const filters = ["provinceFilter", "cat", "categoryFilter", "q",
@@ -29,14 +29,15 @@
   let decoratePending = false;
 
   function targetFor(view) {
-    if (view === "curriculum") return nav.querySelector('[data-qa-view="curriculum"]');
+    if (view === "career") return nav.querySelector('[data-qa-view="jobs"]');
+    if (["curriculum","cert","library"].includes(view)) return nav.querySelector('[data-qa-view="' + view + '"]');
     if (view === "matrix" || view === "employers") return nav.querySelector('[data-qx-view="' + view + '"]');
     return nav.querySelector('[data-view="' + view + '"]');
   }
   function routeOf(node) {
     const button = node && node.closest("button[data-view],button[data-go],button[data-qa-view],button[data-qx-view]");
     if (!button) return null;
-    const view = button.dataset.qxView || button.dataset.qaView || button.dataset.view || button.dataset.go;
+    const view = button.dataset.qaView === "jobs" ? "career" : button.dataset.qxView || button.dataset.qaView || button.dataset.view || button.dataset.go;
     return names[view] && targetFor(view) ? view : null;
   }
   function toURL(view, lesson) {
@@ -88,6 +89,7 @@
   }
   function reflect(view) {
     const selected = targetFor(view);
+    window.dispatchEvent(new Event("qx:routechange"));
     nav.querySelectorAll("button[data-view],button[data-qa-view],button[data-qx-view]").forEach(button => {
       const on = button === selected;
       button.classList.toggle("active", on);
@@ -96,12 +98,12 @@
     });
     const extra = selected && selected.closest("details.qf-extra");
     if (extra) extra.open = true;
-    document.title = (names[view] || "Обзор") + " — Fisheries " + country + " · qexus lab";
+    document.title = (window.qxTranslate?.(names[view] || "Обзор") || names[view] || "Обзор") + " — Fisheries " + country + " · qexus lab";
     const breadcrumb = document.getElementById("crumb") || document.getElementById("viewName");
     if (breadcrumb) breadcrumb.textContent = names[view] || "Обзор";
     const toggle = document.getElementById("menuToggle");
     if (toggle) toggle.setAttribute("aria-label",
-      toggle.getAttribute("aria-expanded") === "true" ? "Закрыть меню" : "Открыть меню");
+      window.qxTranslate?.(toggle.getAttribute("aria-expanded") === "true" ? "Закрыть меню" : "Открыть меню") || (toggle.getAttribute("aria-expanded") === "true" ? "Закрыть меню" : "Открыть меню"));
   }
   function focusHeading() {
     const title = main.querySelector("h1");
@@ -208,6 +210,7 @@
   });
   // Keep browser-native Back/Forward, deep links and page reloads functional.
   window.addEventListener("popstate", showURL);
+  window.addEventListener("qx:language-ready", () => reflect(active));
   document.addEventListener("keydown", event => {
     if (event.key !== "Escape") return;
     const sidebar = document.getElementById("sidebar");
