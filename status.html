@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#071523">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' https: data:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-src 'none'; upgrade-insecure-requests">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta name="description" content="Публичный статус реестров и источников вакансий проектов qexus lab Fisheries.">
+<link rel="canonical" href="https://qexus.github.io/status.html">
+<link rel="icon" href="assets/qx-favicon-48.png" sizes="48x48" type="image/png">
+<link rel="apple-touch-icon" href="assets/qx-logo-180.png">
+<title>Состояние проектов — qexus lab</title>
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="assets/status.css">
+</head>
+<body>
+<div class="page">
+<header class="top">
+ <a class="logo" href="/" aria-label="Главная qexus lab"><img class="qx-brand-image" src="assets/qx-logo-180.png" width="52" height="52" alt=""><span><b>qexus lab</b><small>STATUS / OPEN DATA</small></span></a>
+ <a class="github" href="https://github.com/qexus/qexus.github.io/actions/workflows/health.yml" target="_blank" rel="noopener noreferrer">GitHub Health ↗</a>
+</header>
+<main class="status-main">
+ <div class="kicker">СОСТОЯНИЕ ПРОЕКТОВ</div>
+ <h1>Публичные данные и обновления</h1>
+ <p class="status-intro">Здесь показывается состояние опубликованных баз данных, а не гарантированная доступность вакансий или юридическая актуальность курсов. Записи реестра ≠ работодатели, которые сейчас нанимают.</p>
+ <div class="status-grid" aria-live="polite">
+   <section class="status-card" id="norway">
+     <h2>🇳🇴 Fisheries Norway</h2><p class="status-label">Проверка состояния…</p>
+     <dl><div><dt>Госреестр предприятий</dt><dd data-field="companies">—</dd></div><div><dt>Судовые записи</dt><dd data-field="other">—</dd></div><div><dt>Последняя сборка</dt><dd data-field="updated">—</dd></div><div><dt>Лента вакансий</dt><dd data-field="jobs">—</dd></div></dl>
+     <a href="/fisheries/">Перейти к Норвегии ↗</a>
+   </section>
+   <section class="status-card" id="canada">
+     <h2>🇨🇦 Fisheries Canada</h2><p class="status-label">Проверка состояния…</p>
+     <dl><div><dt>Госреестр CFIA</dt><dd data-field="companies">—</dd></div><div><dt>Объекты BC</dt><dd data-field="other">—</dd></div><div><dt>Последняя сборка</dt><dd data-field="updated">—</dd></div><div><dt>Лента вакансий</dt><dd data-field="jobs">—</dd></div></dl>
+     <a href="/fisheries-ca/">Перейти к Канаде ↗</a>
+   </section>
+ </div>
+ <section class="status-explain">
+ <h2>Как понимать статусы</h2>
+ <p><strong>Обновлено</strong> — государственная выгрузка прошла. <strong>Частично / устарело</strong> — часть источников не ответила или использована предыдущая копия. <strong>Лента вакансий не подключена</strong> — автоматическая выдача действующих вакансий не подтверждена, но поиск на официальных сайтах доступен.</p>
+ <p>Исторические объявления Job Bank и карьерные ссылки сохраняются отдельно и не считаются действующими вакансиями. Последнюю проверку безопасности и работоспособности можно посмотреть в <a href="https://github.com/qexus/qexus.github.io/actions/workflows/health.yml" rel="noopener noreferrer" target="_blank">GitHub Actions</a>.</p>
+ </section>
+</main>
+<footer><span>© 2026 qexus lab</span><a href="/">Главная</a><a href="/privacy.html">Приватность</a></footer>
+</div>
+<script src="assets/status.js"></script>
+</body>
+</html>
