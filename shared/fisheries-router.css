@@ -1,0 +1,27 @@
+/* Shared, lightweight navigation enhancements across both Fisheries sites. */
+.qf-skip{position:fixed;top:-100px;left:14px;z-index:1000;background:#48d6be;color:#062332!important;border-radius:8px;padding:11px 16px;font-weight:800;text-decoration:none!important}
+.qf-skip:focus{top:10px}
+#nav .qf-nav-label{font-size:10px;letter-spacing:1.3px;color:#86b0c2;margin:14px 14px 6px;font-weight:800}
+#nav .qf-extra{margin:11px 8px 15px;border-top:1px solid #315062}
+#nav .qf-extra>summary{display:flex;align-items:center;gap:9px;cursor:pointer;color:#b5d8e2;padding:13px 9px;font-size:12px;font-weight:700;border-radius:8px;list-style:none}
+#nav .qf-extra>summary::-webkit-details-marker{display:none}
+#nav .qf-extra>summary:before{content:"+";font-size:16px;color:#48d6be}
+#nav .qf-extra[open]>summary:before{content:"−"}
+#nav .qf-extra>summary:hover{background:#183a4c}
+#nav .qf-extra .nav-item{font-size:12px;min-height:42px;padding-top:8px;padding-bottom:8px}
+#nav button.active{background:#174a53;color:#fff;border-left:3px solid #48d6be}
+#nav button:focus-visible,#nav summary:focus-visible,.qf-step:focus-visible,.qf-lesson-link:focus-visible{outline:2px solid #48d6be;outline-offset:2px}
+.qf-first-steps{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:0 0 20px;padding:14px 17px;border:1px solid #285264;border-radius:13px;background:#0c2939;color:#e5f8fa}
+.qf-first-steps>strong{font-size:13px;margin-right:6px;color:#e5f8fa}
+.qf-step{border:1px solid #426572;border-radius:9px;padding:10px 13px;min-height:42px;color:#c5f5eb;background:#133c4b;font-weight:700;font-size:12px;cursor:pointer}
+.qf-step:hover{background:#205664;border-color:#48d6be}
+.qf-lesson-link{display:inline-flex;margin:15px 0 4px;padding:10px 12px;border-radius:8px;border:1px solid #406676;color:#7be7d2!important;font-size:12px;font-weight:700;text-decoration:none!important}
+.qf-lesson-link:hover{background:#184554}
+@media(max-width:740px){
+ #sidebar{overflow-y:auto;overscroll-behavior:contain}
+ #nav .qf-extra{margin-bottom:23px}
+ .qf-first-steps{align-items:stretch}
+ .qf-first-steps>strong{flex:0 0 100%}
+ .qf-step{flex:1 1 150px;text-align:center}
+}
+@media(prefers-reduced-motion:reduce){.qf-step{transition:none!important}}
