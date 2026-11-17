@@ -1,0 +1,16 @@
+.status-main{padding:50px 0 90px;max-width:1120px;margin:0 auto}
+.status-main h1{color:#eaf4f8;font-size:clamp(30px,4.7vw,49px);line-height:1.12;letter-spacing:-1.2px;margin:15px 0}
+.status-intro{color:#a9c5d1;line-height:1.75;max-width:850px}
+.status-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin-top:34px}
+.status-card{background:#0d2031;border:1px solid #244358;border-radius:18px;padding:25px}
+.status-card h2{font-size:21px;color:#eaf4f8;margin:0 0 10px}
+.status-label{color:#4adac2;font-size:12px;margin:0 0 20px}
+.status-card dl{display:grid;gap:0;margin:0 0 20px}
+.status-card dl>div{display:flex;justify-content:space-between;gap:20px;align-items:center;border-bottom:1px solid #244358;padding:12px 0}
+.status-card dt{font-size:12px;color:#91acba}
+.status-card dd{margin:0;font-size:14px;font-weight:800;color:#eaf4f8;text-align:right}
+.status-card>a,.status-explain a{color:#4adac2;text-decoration:underline;text-underline-offset:3px}
+.status-explain{max-width:850px;margin-top:45px;line-height:1.75;color:#aac6d2}
+.status-explain h2{font-size:22px;color:#eaf4f8}
+.status-explain strong{color:#4adac2}
+@media(max-width:750px){.status-main{padding:30px 0 70px}.status-grid{grid-template-columns:1fr}.status-card{padding:19px}.status-card h2{font-size:19px}}
