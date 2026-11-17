@@ -72,3 +72,8 @@
 .manac-project-media span{position:absolute;right:19px;bottom:20px;z-index:1;font-size:10px;color:white;background:#062130a6;padding:7px 10px;border-radius:6px}
 @media(max-width:760px){.manac-project{grid-template-columns:1fr}.manac-project-copy{padding:24px}.manac-project-media{min-height:220px;order:-1}.manac-project h3{font-size:46px}.manac-project-label{margin-top:15px}.manac-project-bottom{margin-top:25px}}
 @media(prefers-reduced-motion:reduce){.manac-project{transition:none}}
+
+/* Brand icon remains the only name in every page header; keep clear touch target. */
+.top .logo{display:inline-flex;min-width:48px;min-height:48px;justify-content:center;flex:none}
+.hub-preview-card.manac-mini{background:linear-gradient(115deg,#26484b,#102c39);border-color:#376b67}
+.hub-preview-card.manac-mini .hub-preview-flag{font-size:32px}
