@@ -17,12 +17,17 @@ LOCALIZED_FISHERIES = tuple(
     for site in FISHERIES for lang in LANGUAGES
     for path in ("", "guides/") + tuple(f"guides/lesson-{i:02}.html" for i in range(1, 13))
 )
-CANONICAL = ORIGINAL + LOCALIZED_PORTAL + LOCALIZED_MANAC + LOCALIZED_FISHERIES
+LOCALIZED_REFERENCES = tuple(
+    f"/{site}/{lang}/guides/{guide}.html"
+    for site in FISHERIES for lang in LANGUAGES
+    for guide in ("professions", "employers", "registries", "glossary")
+)
+CANONICAL = ORIGINAL + LOCALIZED_PORTAL + LOCALIZED_MANAC + LOCALIZED_FISHERIES + LOCALIZED_REFERENCES
 NAMESPACE = "http://www.sitemaps.org/schemas/sitemap/0.9"
 ET.register_namespace("", NAMESPACE)
 
 def build(when="2026-11-17"):
-    assert len(CANONICAL)==110 and len(set(CANONICAL))==110
+    assert len(CANONICAL)==126 and len(set(CANONICAL))==110
     root=ET.Element(f"{{{NAMESPACE}}}urlset")
     for path in CANONICAL:
         entry=ET.SubElement(root, f"{{{NAMESPACE}}}url")

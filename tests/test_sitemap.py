@@ -8,7 +8,7 @@ from build_sitemap import CANONICAL, ROOT
 
 class SitemapAudit(unittest.TestCase):
     def test_canonical_urls_are_unique(self):
-        self.assertEqual(len(CANONICAL),110)
+        self.assertEqual(len(CANONICAL),126)
         self.assertEqual(len(CANONICAL),len(set(CANONICAL)))
 
     def test_published_sitemap_matches_known_pages(self):
@@ -16,7 +16,7 @@ class SitemapAudit(unittest.TestCase):
         namespace={"s":"http://www.sitemaps.org/schemas/sitemap/0.9"}
         locs=[x.text for x in tree.findall(".//s:loc",namespace)]
         self.assertEqual(set(locs),{ROOT+p for p in CANONICAL})
-        self.assertEqual(len(locs),110)
+        self.assertEqual(len(locs),126)
         self.assertFalse(any("?lang=" in u for u in locs),"Dynamic language UI is not a separate canonical HTML page")
 
     def test_robot_file_points_to_the_sitemap(self):
