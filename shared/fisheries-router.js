@@ -176,6 +176,15 @@
     if (active === "curriculum") addLessonLinks();
   }
 
+  // Accessible skip link should not add an extra #main entry to browser history.
+  document.addEventListener("click", event => {
+    if (!event.target.closest(".qf-skip")) return;
+    event.preventDefault();
+    main.tabIndex = -1;
+    main.focus({ preventScroll: true });
+    main.scrollIntoView({ block: "start", behavior: "auto" });
+  }, true);
+
   // Capture existing values before the original app redraws the page.
   document.addEventListener("click", event => {
     if (routeOf(event.target)) storeFilters(active);
