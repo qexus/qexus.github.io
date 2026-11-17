@@ -1,0 +1,21 @@
+/* shared qexus lab Fisheries UI, inherited by Canada and Norway */
+.qf-panel,.qf-study,.qf-matrix-note{border:1px solid #285264;background:#0b2837;color:#c9e0e7;border-radius:13px;padding:18px 20px;margin:15px 0 22px}
+.qf-panel-head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.qf-panel-head strong,.qf-study strong{color:#f1fbff;font-size:17px}
+.qf-badge{border:1px solid #4c6873;background:#14384a;border-radius:99px;padding:5px 10px;color:#a6e8db;font-size:11px}
+.qf-desc,.qf-study p{font-size:13px;line-height:1.7;color:#b6cdd7;margin:11px 0}
+.qf-links{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:13px 0;color:#bcd7dc;font-size:12px}
+.qf-link{display:inline-flex;border:1px solid #355d68;background:#143547;padding:9px 12px;color:#9ee6d9!important;border-radius:9px;font-size:12px;text-decoration:none!important;line-height:1.45}
+.qf-link:hover{background:#205161;color:#fff!important}
+.qf-link:focus-visible,.qf-next:focus-visible{outline:2px solid #4adac2;outline-offset:3px}
+.qf-note{display:block;color:#8daebd;font-size:11px;line-height:1.6}
+.qf-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.qf-item{background:#0a2030;border:1px solid #315365;border-radius:9px;padding:15px}
+.qf-item>strong{color:#ecfbfa}
+.qf-item p{color:#a9c6d2;font-size:12px;margin:8px 0}
+.qf-item small{display:block;color:#8faebc;font-size:11px;margin-top:8px}
+.qf-study{background:#102c3b}
+.qf-next{background:#48d6be;color:#072634;border:0;border-radius:8px;padding:10px 15px;font:inherit;font-size:12px;font-weight:800;cursor:pointer}
+.qf-matrix-note{border-left:3px solid #ffc978;background:#302e26;color:#e7d7ae;font-size:13px;line-height:1.7}
+@media(max-width:750px){.qf-panel,.qf-study,.qf-matrix-note{padding:15px}.qf-grid{grid-template-columns:1fr}.qf-links{align-items:stretch}}
+@media(prefers-reduced-motion:reduce){.qf-link,.qf-next{transition:none!important}}
