@@ -7,6 +7,10 @@ on:
       - '.github/workflows/health.yml'
       - 'scripts/monitor_sites.py'
       - 'tests/test_monitor_sites.py'
+      - 'scripts/build_sitemap.py'
+      - 'tests/test_sitemap.py'
+      - 'sitemap.xml'
+      - 'site-map.html'
   schedule:
     - cron: '37 10 * * *' # daily 10:37 UTC, best effort
 permissions:
@@ -22,7 +26,7 @@ jobs:
           python-version: '3.12'
       - name: Test health-check rules
         run: python -m unittest discover -s tests -v
-      - name: Check all three public sites and official snapshot sizes
+      - name: Check all four projects, sitemap, and official snapshot sizes
         run: python scripts/monitor_sites.py --output site-health.json
       - name: Attach read-only health report
         if: always()

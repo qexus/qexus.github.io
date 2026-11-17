@@ -13,7 +13,7 @@ from urllib.request import Request, urlopen
 from urllib.error import URLError, HTTPError
 
 BASE="https://qexus.github.io"
-SITE_PATHS={"/": "qexus lab", "/fisheries/":"Fisheries", "/fisheries-ca/":"Fisheries","/privacy.html":"Приватность","/status.html":"Состояние проектов"}
+SITE_PATHS={"/": "qexus lab", "/work.html":"Поиск", "/manac/":"Manac", "/site-map.html":"КАРТА САЙТА", "/fisheries/":"Fisheries", "/fisheries-ca/":"Fisheries","/privacy.html":"Приватность","/status.html":"Состояние проектов","/sitemap.xml":"<urlset"}
 JSON_PATHS={"/fisheries/generated/registry.json":("Norway","companies","vessels"),
             "/fisheries-ca/generated/registry.json":("Canada","companies","aquaculture")}
 UTC=dt.timezone.utc
