@@ -24,7 +24,7 @@ Technology that solves real problems. Clean, credible, modern interfaces that pr
 ## Project palettes / variants already published
 
 - **Fisheries Canada:** background `#061422`, panel `#0B2031`, primary accent `#48D6BE`. Keep compatible with the core palette.
-- **Fisheries Norway:** a purposeful light-mode content area: `#F5F8FB` background, `#14263C` primary text; `#0B2433` dark navigation, `#0C8A9B` accent. Retain readability and strong visual connection to the brand.
+- **Fisheries Norway:** aligned with Canada’s dark navy and turquoise interface (`#061422` / `#0B2031` / `#48D6BE`).
 - **Future AI project:** optional purple accent, to be selected when implemented (not yet an official HEX).
 - **Future robotics project:** optional amber accent, to be selected when implemented (not yet an official HEX).
 
@@ -36,7 +36,9 @@ Technology that solves real problems. Clean, credible, modern interfaces that pr
 
 ## Logo and navigation
 
-- Keep the recognizable lowercase **qexus lab** wordmark and the stylized `q` with a small star/asterisk symbol, using the existing implementation.
+- Official icon: **QX** silver/turquoise monogram with a subtle connected-node motif inside a dark rounded square with a cyan outline, approved by the project owner on 16 November 2026.
+- Canonical assets: `assets/qx-logo.svg` (scalable wrapper), `assets/qx-logo-180.png` (website/app icon), `assets/qx-favicon-48.png` (favicon). Original high-resolution cropped PNG variants are available separately.
+- Use the **same QX icon** for the main portal and all future qexus lab subprojects. Retain the lowercase **qexus lab** wordmark next to the icon. No fishing-specific imagery belongs in the parent brand mark.
 - On subprojects, the qexus lab logo links to `https://qexus.github.io/`.
 - Provide links between sibling projects, where relevant.
 - Each project can have its own name and small accent identity without losing the shared brand family.
