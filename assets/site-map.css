@@ -4,3 +4,4 @@
 @media(max-width:750px){.map-nav a:last-child{display:none}.map-grid{grid-template-columns:1fr}.map-hero{padding:55px 0 40px}.map-hero h1{font-size:43px}.map-region{padding:19px}.map-services{flex-direction:column;align-items:flex-start}.map-service-links{justify-content:flex-start}}
 @media(max-width:400px){.map-nav{gap:3px}.map-nav a{font-size:10px;padding:9px}.map-region-head h2{font-size:28px}}
 @media(prefers-reduced-motion:reduce){.map-entry{transition:none}}
+.map-reading{border-top:1px solid #315267;margin-top:23px;padding-top:16px}.map-reading h3{margin-top:4px}.map-reading p{font-size:12px;line-height:1.6;color:#9db9c9}.map-guide-links{display:flex;flex-wrap:wrap;gap:7px}.map-guide-links a{padding:9px 10px;border:1px solid #42687a;border-radius:8px;color:#a8efe1;text-decoration:none;font-size:12px;font-weight:700}.map-guide-links a:hover{background:#194653;border-color:#4adac2}
