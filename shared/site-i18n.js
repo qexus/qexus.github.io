@@ -81,6 +81,9 @@ function init(){
  localizePageMeta();
  renderSwitch();
  translateElement(document.body);
+ const brand=document.querySelector('header.top a.logo, header.top a.brand, .sidebar .brand a, .sidebar .logo a, .topline a.brand');
+ if(brand)brand.setAttribute('aria-label',lang==='fr'?'Accueil':lang==='uk'?'На головну':'На главную');
+
  localizeLinks(document.body);
  const observer=new MutationObserver(records=>{
    for(const record of records){
