@@ -66,7 +66,19 @@ function renderSwitch(){
  else if(host)host.appendChild(nav);
  else document.body.prepend(nav);
 }
+const SEO={"/":{"fr":["qexus lab — Projets et recherches","Projets indépendants en données ouvertes, automatisation, IA et applications web."],"uk":["qexus lab — Проєкти й дослідження","Незалежні проєкти з відкритих даних, автоматизації, ШІ та вебзастосунків."]},"/work.html":{"fr":["Recherche d’emploi — projets · qexus lab","Offres chez Manac à Saint-Georges et projets Fisheries Canada et Norway, sources officielles et formation."],"uk":["Пошук роботи — проєкти · qexus lab","Вакансії Manac у Сен-Жоржі й проєкти Fisheries Canada та Norway, офіційні джерела й навчання."]},"/manac/":{"fr":["Emplois chez Manac — Saint-Georges · qexus lab","Découvrez 11 offres sélectionnées à Saint-Georges, les salaires horaires, les avantages sociaux et les façons de postuler."],"uk":["Робота в Manac — Сен-Жорж · qexus lab","11 вакансій у Сен-Жоржі, погодинні ставки, переваги компанії та способи подання резюме."]},"/fisheries/":{"fr":["Fisheries Norway — Emplois et formation","Industrie des pêches en Norvège : registres, employeurs, certificats et ressources de formation."],"uk":["Fisheries Norway — Робота й навчання","Рибна галузь Норвегії: реєстри, роботодавці, сертифікати й навчальні матеріали."]},"/fisheries-ca/":{"fr":["Fisheries Canada — Emplois et formation","Pêches canadiennes : registres publics, offres archivées, employeurs et formation."],"uk":["Fisheries Canada — Робота й навчання","Рибна галузь Канади: державні реєстри, архівні вакансії, роботодавці й навчання."]},"/site-map.html":{"fr":["Plan des projets et ressources · qexus lab","Plan complet des projets de carrière, registres publics, employeurs et 24 leçons des deux académies."],"uk":["Мапа проєктів і ресурсів · qexus lab","Повна мапа кар’єрних проєктів, реєстрів, роботодавців та 24 уроків двох Академій."]},"/status.html":{"fr":["État des données — qexus lab","État des registres publics norvégiens et canadiens et dates de mise à jour."],"uk":["Стан баз даних — qexus lab","Стан державних реєстрів Норвегії та Канади і дати їх оновлення."]},"/privacy.html":{"fr":["Confidentialité et sources — qexus lab","Comment qexus lab utilise les données publiques et protège les informations personnelles des visiteurs."],"uk":["Конфіденційність і джерела — qexus lab","Як qexus lab використовує відкриті дані й захищає особисту інформацію відвідувачів."]}};
+function localizePageMeta(){
+ if(lang==='ru')return;
+ let path=location.pathname;
+ if(path.endsWith('/index.html'))path=path.slice(0,-'index.html'.length);
+ const entry=SEO[path]?.[lang];
+ if(entry){
+   document.title=entry[0];
+   const meta=document.querySelector('meta[name="description"]');if(meta)meta.setAttribute('content',entry[1]);
+ }
+}
 function init(){
+ localizePageMeta();
  renderSwitch();
  translateElement(document.body);
  localizeLinks(document.body);
