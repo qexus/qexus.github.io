@@ -52,6 +52,23 @@ def verify_registry(region,doc,now=None):
             warnings.append(region+": at least one official source not fresh")
     return errors,warnings
 
+def verify_certification_index(doc, now=None):
+    """Warn when source-dependent job/qualification advice is due for review."""
+    now=now or dt.datetime.now(UTC)
+    errors=[];warnings=[]
+    if not isinstance(doc,dict):return ["Invalid qualification index"],[]
+    if any(len(doc.get("roles",{}).get(country,[]))<7 for country in ("canada","norway")):
+        errors.append("Qualification matrix lost required role records")
+    date=doc.get("checked")
+    try:
+        checked=dt.date.fromisoformat(date)
+        elapsed=(now.date()-checked).days
+        if elapsed>45:warnings.append("Certificate and employer links last verified "+str(elapsed)+" days ago; manual review due")
+        if elapsed < -2:warnings.append("Qualification review date appears to be in future")
+    except (TypeError,ValueError):
+        errors.append("Missing manual qualification review date")
+    return errors,warnings
+
 def fetch(url,timeout=20):
     request=Request(url,headers={"User-Agent":"qexus-site-monitor/1.0 (+https://github.com/qexus)"})
     last=None
@@ -85,6 +102,14 @@ def check_all():
             result["checks"].append(country+" registry "+str(body.get("status")))
         except Exception as e:
             result["errors"].append(path+": "+str(e))
+    try:
+        ref=fetch(BASE+"/fisheries/reference-data.js").split("window.qexusFisheriesReference=",1)[1].strip().rstrip(";")
+        status=json.loads(ref)
+        errors,warnings=verify_certification_index(status)
+        result["errors"]+=errors;result["warnings"]+=warnings
+        result["checks"].append("Qualification and pricing reference date: "+str(status.get("checked")))
+    except Exception as e:
+        result["errors"].append("Qualification source index unavailable: "+str(e))
     for path in ("/shared/fisheries-core.js","/shared/fisheries-core.css"):
         try:
             data=fetch(BASE+path)
