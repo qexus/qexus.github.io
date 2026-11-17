@@ -40,6 +40,7 @@ function staticLocalizedPath(path,desired){
  if(path==='/')return '/'+desired+'/';
  if(['/work.html','/site-map.html','/status.html','/privacy.html'].includes(path))return '/'+desired+path;
  if(path==='/manac/' || path==='/manac/index.html')return '/manac/'+desired+'/';
+ if(path==='/fisheries/guides/'||path==='/fisheries-ca/guides/')return path.replace('/guides/','/'+desired+'/guides/');
  const m=path.match(/^\/(fisheries|fisheries-ca)\/(?:guides\/(lesson-\d{2}\.html|index\.html)|index\.html)?$/);
  if(m){
   if(m[2])return '/'+m[1]+'/'+desired+'/guides/'+(m[2]==='index.html'?'':m[2]);
