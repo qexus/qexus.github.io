@@ -14,3 +14,18 @@
 /* Shared QX brand icon (approved 2026-11). */
 .logo .qx-brand-image{display:block;width:52px;height:52px;flex:none;object-fit:contain;border-radius:13px;box-shadow:0 0 0 1px #244358,0 3px 14px #0ddcc71c}
 @media(max-width:720px){.logo .qx-brand-image{width:46px;height:46px;border-radius:11px}}
+
+
+/* Project hub navigation and the compact interactive site directory entry. */
+.home-nav{display:flex;align-items:center;gap:9px;margin-left:auto;margin-right:16px}
+.home-nav a{font-size:12px;font-weight:700;color:#b2cdd8;border:1px solid transparent;border-radius:8px;padding:10px 12px}
+.home-nav a:hover{border-color:#3a6a73;color:#b1ffed}
+.discover{display:flex;justify-content:space-between;gap:22px;align-items:center;border:1px solid #2b5667;border-radius:14px;background:linear-gradient(105deg,#133d45,#0d2536);padding:28px 30px;margin:0 0 72px}
+.discover h2{font:600 27px 'Space Grotesk',sans-serif;letter-spacing:-.8px;margin:9px 0}
+.discover p{font-size:13px;color:#abced4;line-height:1.65;max-width:650px;margin:5px 0}
+.discover>a{border-radius:9px;background:#48d6be;padding:14px 18px;color:#062739;font-size:12px;font-weight:800;white-space:nowrap}
+.discover>a:hover{background:#9ee9dc}
+@media(max-width:870px){.home-nav{gap:1px;margin-right:8px}.home-nav a{padding:8px;font-size:11px}.top>.github{display:none}}
+@media(max-width:720px){.home-nav{margin-left:auto}.home-nav a{font-size:10px;padding:7px 5px}.home-nav a:first-child{display:none}.discover{flex-direction:column;align-items:flex-start;padding:21px;margin-bottom:50px}.discover>a{white-space:normal;width:100%;text-align:center}}
+@media(max-width:400px){.home-nav a:last-child{display:none}}
+@media(prefers-reduced-motion:reduce){.discover>a{transition:none}}
