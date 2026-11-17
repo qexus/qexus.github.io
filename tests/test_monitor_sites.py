@@ -3,7 +3,7 @@ import sys
 import unittest
 from pathlib import Path
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/"scripts"))
-from monitor_sites import verify_registry,UTC
+from monitor_sites import verify_registry,verify_certification_index,UTC
 
 NOW=dt.datetime(2026,11,16,12,tzinfo=UTC)
 def snapshot(counts=("companies","aquaculture"), status="fresh",date=None):
@@ -24,6 +24,14 @@ class SnapshotTests(unittest.TestCase):
     def test_registry_drop_fails(self):
         doc=snapshot();doc["companies"]=[]
         self.assertTrue(verify_registry("Canada",doc,now=NOW)[0])
+    def test_certifications_review_age_warning(self):
+        recent={"checked":"2026-11-16","roles":{"canada":[{}]*7,"norway":[{}]*7}}
+        self.assertEqual(verify_certification_index(recent,now=NOW)[0],[])
+        stale={"checked":"2026-08-01","roles":{"canada":[{}]*7,"norway":[{}]*7}}
+        self.assertTrue(verify_certification_index(stale,now=NOW)[1])
+    def test_missing_role_matrix_fails(self):
+        missing={"checked":"2026-11-16","roles":{"canada":[],"norway":[]}}
+        self.assertTrue(verify_certification_index(missing,now=NOW)[0])
     def test_outdated_snapshot_fails(self):
         doc=snapshot(date=NOW-dt.timedelta(days=17))
         self.assertTrue(verify_registry("Canada",doc,now=NOW)[0])
