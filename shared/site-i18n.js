@@ -61,7 +61,13 @@ function renderSwitch(){
    if(key===lang)a.setAttribute('aria-current','page');
    nav.appendChild(a);
  }
- const host=document.querySelector('header.top .github, header.topbar .top-right, header.header .header-r, header.top .topline .region, header.top .wrap .topline .region, header.top .back, header.top .topline, header.top, header.header');
+ const host=document.querySelector('header.top .topline .region')
+   ||document.querySelector('header.topbar .top-right')
+   ||document.querySelector('header.header .header-r')
+   ||document.querySelector('header.top .github')
+   ||document.querySelector('header.top .back')
+   ||document.querySelector('header.top')
+   ||document.querySelector('header.header');
  if(host?.matches('.github,.top-right,.header-r,.region,.back'))host.parentNode.insertBefore(nav,host);
  else if(host)host.appendChild(nav);
  else document.body.prepend(nav);
