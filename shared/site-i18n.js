@@ -34,6 +34,19 @@ function translateElement(root){
   for(const attr of attrs){if(el.hasAttribute(attr)){const val=el.getAttribute(attr),next=swapValue(val);if(next!==val)el.setAttribute(attr,next)}}
  }
 }
+// Separate, crawlable translations for completed pages; other tools retain dynamic UI localization.
+function staticLocalizedPath(path,desired){
+ if(!['fr','uk'].includes(desired))return null;
+ if(path==='/')return '/'+desired+'/';
+ if(['/work.html','/site-map.html','/status.html','/privacy.html'].includes(path))return '/'+desired+path;
+ if(path==='/manac/' || path==='/manac/index.html')return '/manac/'+desired+'/';
+ const m=path.match(/^\/(fisheries|fisheries-ca)\/(?:guides\/(lesson-\d{2}\.html|index\.html)|index\.html)?$/);
+ if(m){
+  if(m[2])return '/'+m[1]+'/'+desired+'/guides/'+(m[2]==='index.html'?'':m[2]);
+  return '/'+m[1]+'/'+desired+'/';
+ }
+ return null;
+}
 function localizeLinks(root){
  const anchors=root.matches?.('a[href]')?[root,...root.querySelectorAll('a[href]')]:root.querySelectorAll('a[href]');
  for(const a of anchors){
@@ -43,7 +56,11 @@ function localizeLinks(root){
   try{
     const url=new URL(raw,location.href);
     if(url.origin!==siteRoot)continue;
-    else if(lang!=='ru'){if(url.searchParams.get('lang')!==lang){url.searchParams.set('lang',lang);a.href=url.href}}
+    else if(lang!=='ru'){
+    const localized=staticLocalizedPath(url.pathname,lang);
+    if(localized){url.pathname=localized;url.searchParams.delete('lang');a.href=url.href}
+    else if(url.searchParams.get('lang')!==lang){url.searchParams.set('lang',lang);a.href=url.href}
+   }
     else if(url.searchParams.has('lang')){url.searchParams.delete('lang');a.href=url.href}
   }catch{}
  }
@@ -54,7 +71,7 @@ function renderSwitch(){
  for(const [key,t] of Object.entries({ru:'RU',fr:'FR',uk:'UK'})){
    const a=document.createElement('a');
    const url=new URL(location.href);
-   if(key==='ru')url.searchParams.delete('lang');else url.searchParams.set('lang',key);
+   if(key==='ru')url.searchParams.delete('lang');else {const staticPath=staticLocalizedPath(url.pathname,key);if(staticPath){url.pathname=staticPath;url.searchParams.delete('lang')}else url.searchParams.set('lang',key)}
    a.href=url.pathname+url.search+url.hash;
    a.textContent=t;a.setAttribute('hreflang',key);
    a.title=current[key];
