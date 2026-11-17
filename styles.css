@@ -27,7 +27,7 @@
 .discover>a:hover{background:#9ee9dc}
 @media(max-width:870px){.home-nav{gap:1px;margin-right:8px}.home-nav a{padding:8px;font-size:11px}.top>.github{display:none}}
 @media(max-width:720px){.home-nav{margin-left:auto}.home-nav a{font-size:10px;padding:7px 5px}.home-nav a:first-child{display:none}.discover{flex-direction:column;align-items:flex-start;padding:21px;margin-bottom:50px}.discover>a{white-space:normal;width:100%;text-align:center}}
-@media(max-width:400px){.home-nav a:last-child{display:none}}
+@media(max-width:400px){.career-page .home-nav a:last-child{display:none}}
 @media(prefers-reduced-motion:reduce){.discover>a{transition:none}}
 
 
