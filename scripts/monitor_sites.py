@@ -72,7 +72,7 @@ def verify_certification_index(doc, now=None):
 def fetch(url,timeout=20):
     request=Request(url,headers={"User-Agent":"qexus-site-monitor/1.0 (+https://github.com/qexus)"})
     last=None
-    for i in range(2):
+    for i in range(3):
         try:
             with urlopen(request,timeout=timeout) as r:
                 if r.status!=200:raise ValueError("HTTP "+str(r.status))
@@ -81,7 +81,7 @@ def fetch(url,timeout=20):
                 return body.decode("utf-8",errors="replace")
         except (ValueError,HTTPError,URLError,TimeoutError) as e:
             last=e
-            if i==0:time.sleep(2)
+            if i<2:time.sleep(3)
     raise RuntimeError(str(last))
 
 def check_all():
