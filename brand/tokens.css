@@ -1,0 +1,15 @@
+/* qexus lab — canonical palette based on the published main portal CSS
+ * https://qexus.github.io/
+ * Last documented: 2026-11-16
+ * Import from project stylesheets or copy into new work.
+ */
+:root {
+  --qexus-bg: #071523;
+  --qexus-panel: #0d2031;
+  --qexus-border: #244358;
+  --qexus-text: #eaf4f8;
+  --qexus-muted: #91acba;
+  --qexus-mint: #4adac2;
+  --qexus-blue: #69afd1;
+  --qexus-font: "DM Sans", -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+}
