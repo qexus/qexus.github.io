@@ -35,8 +35,8 @@ function activeJobs(){
 function panel(){
  const root=make("section","qf-panel");root.id="qf-panel";root.setAttribute("aria-label","Статус текущих вакансий");
  const head=make("div","qf-panel-head");head.append(make("strong","","Вакансии с проверенным статусом"));
- const items=activeJobs(),badge=make("span","qf-badge",items.length?"Подтверждено: "+items.length:"Требуется источник");head.append(badge);root.append(head);
- root.append(make("p","qf-desc",items.length?"Объявления из разрешённого источника, перепроверенные за последние 36 часов.":"Подключение автоматической ленты активных вакансий ещё не завершено. Старые объявления ниже являются архивом и требуют проверки."));
+ const items=activeJobs(),badge=make("span","qf-badge",items.length?"Подтверждено: "+items.length:"Официальный поиск");head.append(badge);root.append(head);
+ root.append(make("p","qf-desc",items.length?"Объявления из разрешённого источника, перепроверенные за последние 36 часов.":"Нажми на официальный поиск ниже, чтобы увидеть свежие вакансии прямо на NAV или Job Bank. Объявления, сохранённые на этой странице, — архив, их наличие нужно проверять."));
  if(items.length){
   const grid=make("div","qf-grid");
   for(const x of items){
@@ -56,7 +56,52 @@ function panel(){
 function jobsActive(){return !!document.querySelector('#nav [data-view="jobs"].active')}
 function studyActive(){return !!document.querySelector('#nav [data-qa-view="curriculum"].active')}
 function matrixActive(){return !!document.querySelector('#nav [data-qx-view="matrix"].active')}
+
+let refreshMessage="",refreshing=false;
+function registryVisible(){
+ return ["dashboard","companies","fleets","aquaculture"].some(k=>
+  !!document.querySelector('#nav [data-view="'+k+'"].active'));
+}
+function fmtSourceDate(value){
+ const n=Date.parse(value||"");
+ return Number.isFinite(n)?new Date(n).toLocaleString("ru-RU",{day:"2-digit",month:"long",year:"numeric",hour:"2-digit",minute:"2-digit"}):"ещё не получена";
+}
+function refreshControl(){
+ if(!registryVisible()||main.querySelector(".qf-refresh"))return;
+ const info=window.qexusRegistryInfo?.()||{};
+ const root=make("section","qf-refresh");root.setAttribute("aria-label","Обновление опубликованной базы");
+ const detail=make("div","qf-refresh-details");
+ detail.append(make("strong","","Открытая база предприятий"+(ca?" и аквакультуры":" и флота")));
+ const status=info.status==="loading"?"База загружается…":info.status==="unavailable"?"Опубликованная база временно недоступна":
+  "Последняя выгрузка: "+fmtSourceDate(info.generated_at);
+ detail.append(make("small","qf-refresh-meta",status));
+ const button=make("button","qf-next qf-refresh-button","↻ Обновить базу");button.type="button";button.disabled=refreshing;
+ button.addEventListener("click",async()=>{
+  if(refreshing)return;
+  refreshing=true;button.disabled=true;button.textContent="Проверяем…";
+  try{
+   if(typeof window.qexusReloadRegistry!=="function")throw Error("Функция обновления недоступна");
+   const result=await window.qexusReloadRegistry();
+   if(!result?.ok)throw Error(result?.error||"Ошибка загрузки");
+   refreshMessage=result.changed?
+     "Загружена новая опубликованная версия от "+fmtSourceDate(result.generated_at)+".":
+     "Последняя опубликованная версия загружена. Более новой выгрузки пока нет.";
+  }catch(e){
+   refreshMessage="Не удалось повторно загрузить базу: "+String(e.message||e)+". Ранее загруженные данные сохранены.";
+  }finally{
+   refreshing=false;
+   main.querySelector(".qf-refresh")?.remove();
+   update();
+  }
+ });
+ root.append(detail,button);
+ root.append(make("p","qf-refresh-hint","Обновляет копию с qexus lab. Исходные государственные реестры обновляются по расписанию, не при каждом нажатии."));
+ if(refreshMessage)root.append(make("p","qf-refresh-result",refreshMessage));
+ main.prepend(root);
+}
+
 function decorate(){
+ refreshControl();
  if(jobsActive()&&!main.querySelector("#qf-panel"))main.prepend(panel());
  if(studyActive()&&!main.querySelector(".qf-study")){
   const intro=main.querySelector(".qa-intro");
