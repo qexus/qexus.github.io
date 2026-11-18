@@ -88,6 +88,10 @@
       ));
     }
   }
+  function titleFor(view) {
+    if(view==='journey')return nav.querySelector('[data-qj-view="journey"] .qj-nav-label')?.textContent||names[view];
+    return window.qxTranslate?.(names[view]||"Обзор")||names[view]||"Обзор";
+  }
   function reflect(view) {
     const selected = targetFor(view);
     window.dispatchEvent(new Event("qx:routechange"));
@@ -99,9 +103,9 @@
     });
     const extra = selected && selected.closest("details.qf-extra");
     if (extra) extra.open = true;
-    document.title = (window.qxTranslate?.(names[view] || "Обзор") || names[view] || "Обзор") + " — Fisheries " + country + " · qexus lab";
+    document.title = titleFor(view) + " — Fisheries " + country + " · qexus lab";
     const breadcrumb = document.getElementById("crumb") || document.getElementById("viewName");
-    if (breadcrumb) breadcrumb.textContent = window.qxTranslate?.(names[view] || "Обзор") || names[view] || "Обзор";
+    if (breadcrumb) breadcrumb.textContent = titleFor(view);
     const toggle = document.getElementById("menuToggle");
     if (toggle) toggle.setAttribute("aria-label",
       window.qxTranslate?.(toggle.getAttribute("aria-expanded") === "true" ? "Закрыть меню" : "Открыть меню") || (toggle.getAttribute("aria-expanded") === "true" ? "Закрыть меню" : "Открыть меню"));
