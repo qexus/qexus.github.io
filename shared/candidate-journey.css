@@ -58,3 +58,5 @@
  .qj-wrap .qj-bottom{align-items:flex-start;flex-direction:column}
 }
 @media(prefers-reduced-motion:reduce){.qj-wrap .qj-progress>span{transition:none}}
+
+.qj-wrap .qj-step .qj-context{display:inline-block;padding:7px 10px;background:#1b4349;border-left:2px solid #4adac2;border-radius:6px;color:#cdf2e7;font-weight:650}
