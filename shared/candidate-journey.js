@@ -140,8 +140,6 @@
       ? 'https://www.canada.ca/en/immigration-refugees-citizenship/services/work-canada.html'
       : 'https://www.udi.no/en/want-to-apply/work-immigration/';
   }
-  function steps() {
-
   function contextual(id) {
     const p=state.profile;
     if(id==='role'){
@@ -157,6 +155,7 @@
     if(id==='cv')return tr(p.docs.cv?'hintCvChecked':'hintCvUnchecked');
     return '';
   }
+  function steps() {
     const p=state.profile, course=localUrl('curriculum'), qualification=localUrl(p.track==='vessel'?'cert':'curriculum');
     const list=[];
     if(p.experience==='new')list.push({id:'foundation',title:'foundationTitle',desc:'foundationDesc',proof:'foundationProof',href:course});
