@@ -7,7 +7,7 @@
   if (!nav || !main) return;
   const country = location.pathname.includes("/fisheries-ca/") ? "Canada" : "Norway";
   const names = {
-    dashboard: "Обзор", companies: "Предприятия", jobs: "Объявления",
+    dashboard: "Обзор", journey: "Мой маршрут", companies: "Предприятия", jobs: "Объявления",
     fleets: "Флот", aquaculture: "Аквакультура", curriculum: "Обучение",
     matrix: "Профессии и сертификаты", employers: "Работа и контакты",
     glossary: "Словарь", documents: "Документы", salary: "Калькулятор", career: "План отклика", cert: "Курсы и цены", library: "Библиотека ведомств",
@@ -29,15 +29,16 @@
   let decoratePending = false;
 
   function targetFor(view) {
+    if (view === "journey") return nav.querySelector('[data-qj-view="journey"]');
     if (view === "career") return nav.querySelector('[data-qa-view="jobs"]');
     if (["curriculum","cert","library"].includes(view)) return nav.querySelector('[data-qa-view="' + view + '"]');
     if (view === "matrix" || view === "employers") return nav.querySelector('[data-qx-view="' + view + '"]');
     return nav.querySelector('[data-view="' + view + '"]');
   }
   function routeOf(node) {
-    const button = node && node.closest("button[data-view],button[data-go],button[data-qa-view],button[data-qx-view]");
+    const button = node && node.closest("button[data-view],button[data-go],button[data-qa-view],button[data-qx-view],button[data-qj-view]");
     if (!button) return null;
-    const view = button.dataset.qaView === "jobs" ? "career" : button.dataset.qxView || button.dataset.qaView || button.dataset.view || button.dataset.go;
+    const view = button.dataset.qaView === "jobs" ? "career" : button.dataset.qjView || button.dataset.qxView || button.dataset.qaView || button.dataset.view || button.dataset.go;
     return names[view] && targetFor(view) ? view : null;
   }
   function toURL(view, lesson) {
@@ -90,7 +91,7 @@
   function reflect(view) {
     const selected = targetFor(view);
     window.dispatchEvent(new Event("qx:routechange"));
-    nav.querySelectorAll("button[data-view],button[data-qa-view],button[data-qx-view]").forEach(button => {
+    nav.querySelectorAll("button[data-view],button[data-qa-view],button[data-qx-view],button[data-qj-view]").forEach(button => {
       const on = button === selected;
       button.classList.toggle("active", on);
       if (on) button.setAttribute("aria-current", "page");
@@ -160,6 +161,7 @@
     label.textContent = "С чего начать";
     section.append(label);
     for (const [view, text, attr] of [
+      ["journey", "Мой маршрут", "qjView"],
       ["employers", "Найти работодателя", "qxView"],
       ["matrix", "Выбрать профессию", "qxView"],
       ["curriculum", "Начать обучение", "qaView"]
