@@ -13,6 +13,10 @@ on:
       - 'shared/site-i18n.js'
       - 'shared/site-i18n.css'
       - 'shared/qx-footer.css'
+      - 'shared/candidate-journey.js'
+      - 'shared/candidate-journey.css'
+      - 'shared/fisheries-router.js'
+      - 'tests/check_journey.mjs'
       - 'sitemap.xml'
       - 'site-map.html'
   schedule:
@@ -32,6 +36,11 @@ jobs:
         run: python -m unittest discover -s tests -v
       - name: Test language navigation
         run: node tests/check_i18n.mjs
+      - name: Test candidate journey (Norway and Canada)
+        run: |
+          node --check shared/candidate-journey.js
+          node --check shared/fisheries-router.js
+          node tests/check_journey.mjs
       - name: Check all four projects, sitemap, and official snapshot sizes
         run: python scripts/monitor_sites.py --output site-health.json
       - name: Attach read-only health report
