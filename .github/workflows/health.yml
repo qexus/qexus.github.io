@@ -11,6 +11,8 @@ on:
       - 'tests/test_sitemap.py'
       - 'tests/check_i18n.mjs'
       - 'shared/site-i18n.js'
+      - 'shared/site-i18n.css'
+      - 'shared/qx-footer.css'
       - 'sitemap.xml'
       - 'site-map.html'
   schedule:
