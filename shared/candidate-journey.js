@@ -78,9 +78,23 @@
     applyProof:['Я сам отправил заявку и сохранил у себя дату и ссылку.','J’ai postulé moi-même et conservé la date et le lien.','Я сам подав заявку та зберіг дату й посилання.'],
     followupTitle:['Запланировать следующий шаг','Planifier la suite','Спланувати наступний крок'],
     followupDesc:['Отметь дату личной проверки ответа, продолжай готовиться и не считай молчание работодателя подтверждением вакансии.','Notez quand revérifier une réponse, continuez à vous préparer et ne considérez pas un silence comme une confirmation.','Відзнач дату перевірки відповіді, продовжуй підготовку й не сприймай мовчання як підтвердження вакансії.'],
-    followupProof:['У меня есть собственное напоминание и следующий конкретный шаг.','J’ai un rappel personnel et une prochaine action précise.','Маю власне нагадування та конкретний наступний крок.']
+    followupProof:['У меня есть собственное напоминание и следующий конкретный шаг.','J’ai un rappel personnel et une prochaine action précise.','Маю власне нагадування та конкретний наступний крок.'],
+    hintShore:['Фокус: переработка, упаковка, оборудование и санитария.','Priorité : transformation, emballage, machines et hygiène.','Фокус: переробка, пакування, обладнання та гігієна.'],
+    hintVessel:['Фокус: обязанности на борту, тип судна и морские требования.','Priorité : tâches à bord, type de navire et exigences maritimes.','Фокус: обов’язки на борту, тип судна й морські вимоги.'],
+    hintAqua:['Фокус: фермы, оборудование, работа на воде и биобезопасность.','Priorité : fermes, équipement, travail sur l’eau et biosécurité.','Фокус: ферми, обладнання, робота на воді й біобезпека.'],
+    hintNoLanguage:['Языки не отмечены: начни с терминов безопасности и уточни язык вакансии.','Aucune langue cochée : commencez par le vocabulaire de sécurité et vérifiez la langue demandée.','Мови не позначені: почни з термінів безпеки й уточни мову вакансії.'],
+    hintLanguageSelected:['Языки указаны: проверь, достаточно ли уровня для инструкций и собеседования.','Langues choisies : vérifiez votre niveau réel pour les consignes et l’entretien.','Мови вказані: перевір, чи вистачає рівня для інструкцій та співбесіди.'],
+    hintCanadaLanguage:['Для канадской вакансии уточни требования к английскому или французскому.','Pour ce poste au Canada, vérifiez les exigences en anglais ou en français.','Для вакансії в Канаді уточни вимоги до англійської чи французької.'],
+    hintNorwayLanguage:['Для норвежской вакансии уточни требования к норвежскому или английскому.','Pour ce poste en Norvège, vérifiez les exigences en norvégien ou en anglais.','Для вакансії в Норвегії уточни вимоги до норвезької чи англійської.'],
+    hintWorkChecked:['Ты отметил проверку; для новой вакансии ещё раз сверяй действующие условия.','Vérification cochée : revérifiez les conditions en vigueur pour chaque nouvelle offre.','Перевірку позначено; для нової вакансії звіряй чинні умови знову.'],
+    hintWorkUnchecked:['Проверка права на работу ещё не отмечена. Не делай вывод о допуске из анкеты.','Droit au travail non vérifié : ne déduisez aucune autorisation du questionnaire.','Право на роботу ще не перевірене. Не роби висновків про допуск з анкети.'],
+    hintTrainingChecked:['Подтверждения отмечены: проверь, подходят ли они для выбранной роли.','Preuves cochées : vérifiez qu’elles conviennent au poste visé.','Підтвердження позначені: перевір, чи підходять вони для обраної посади.'],
+    hintTrainingUnchecked:['Подтверждения не отмечены: сначала выясни, что действительно обязательно.','Aucune preuve cochée : vérifiez d’abord ce qui est réellement obligatoire.','Підтвердження не позначені: спочатку з’ясуй, що справді обов’язкове.'],
+    hintCvChecked:['CV отмечено готовым: адаптируй его под конкретную вакансию.','CV indiqué prêt : adaptez-le à l’offre précise.','CV позначене готовим: адаптуй його до конкретної вакансії.'],
+    hintCvUnchecked:['CV ещё не отмечено готовым: подготовь его до отклика.','CV non prêt : préparez-le avant de postuler.','CV ще не готове: підготуй його до відгуку.']
   };
   const tr = name => (labels[name] || [name,name,name])[idx];
+  document.querySelectorAll('[data-qj-view="journey"] .qj-nav-label').forEach(el=>{el.textContent=tr('nav');});
   const safe = v => String(v == null ? '' : v).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const tracks = ['shore','vessel','aquaculture'];
   const experiences = ['new','experienced'];
@@ -127,6 +141,22 @@
       : 'https://www.udi.no/en/want-to-apply/work-immigration/';
   }
   function steps() {
+
+  function contextual(id) {
+    const p=state.profile;
+    if(id==='role'){
+      return tr(p.track==='vessel'?'hintVessel':p.track==='aquaculture'?'hintAqua':'hintShore');
+    }
+    if(id==='language'){
+      if(p.languages.length===0)return tr('hintNoLanguage');
+      const relevant=country==='canada'?['en','fr']:['en','no'];
+      return p.languages.some(x=>relevant.includes(x))?tr('hintLanguageSelected'):tr(country==='canada'?'hintCanadaLanguage':'hintNorwayLanguage');
+    }
+    if(id==='eligibility')return tr(p.docs.work?'hintWorkChecked':'hintWorkUnchecked');
+    if(id==='qualification')return tr(p.docs.training?'hintTrainingChecked':'hintTrainingUnchecked');
+    if(id==='cv')return tr(p.docs.cv?'hintCvChecked':'hintCvUnchecked');
+    return '';
+  }
     const p=state.profile, course=localUrl('curriculum'), qualification=localUrl(p.track==='vessel'?'cert':'curriculum');
     const list=[];
     if(p.experience==='new')list.push({id:'foundation',title:'foundationTitle',desc:'foundationDesc',proof:'foundationProof',href:course});
@@ -173,6 +203,7 @@
       '<ol class="qj-steps">'+list.map((s,i)=>'<li class="qj-step'+(state.completed[s.id]?' is-complete':'')+(first===s?' is-next':'')+'">'+
       '<div class="qj-step-main"><span class="qj-number">'+(i+1)+'</span><div class="qj-step-copy">'+
       '<h3>'+safe(tr(s.title))+'</h3><p>'+safe(tr(s.desc))+'</p>'+
+      (contextual(s.id)?'<p class="qj-context">'+safe(contextual(s.id))+'</p>':'')+
       '<p class="qj-proof"><strong>'+safe(tr('proof'))+':</strong> '+safe(tr(s.proof))+'</p>'+
       '<div class="qj-step-actions"><a href="'+safe(s.href)+'"'+(s.external?' target="_blank" rel="noopener noreferrer"':'')+'>'+safe(tr(s.external?'source':'open'))+' ↗</a>'+
       '<label class="qj-mark"><input type="checkbox" data-qj-complete="'+s.id+'"'+(state.completed[s.id]?' checked':'')+'><span>'+safe(tr('mark'))+'</span></label></div>'+
