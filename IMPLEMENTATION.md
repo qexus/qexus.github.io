@@ -6,9 +6,7 @@
 
 **Implemented:** independent `verified_live` data contract; `scripts/refresh_jobs.py` with source authorization flag, deduplication, expiry and 36-hour last-verification limit; tests; daily/weekly publishing; shared UI in «Объявления», and official search links for NAV and Job Bank. Archives remain archives.
 
-**Blocked:** automated sourcing of actual live jobs. A licensed/authorized provider has not been connected; `status=not_connected`. NAV's production feed uses signed JWT and registration/terms requiring prompt removal of inactive ads. Canada Job Bank has no confirmed public third-party read API available for our use. Do **not** scrape prohibited source sites, copy third-party contact data, or publish stale ads as live.
-
-Connector instructions: [Norway](https://github.com/qexus/fisheries/blob/main/JOBS_FEED_SETUP_RU.md) · [Canada](https://github.com/qexus/fisheries-ca/blob/main/JOBS_FEED_SETUP_RU.md).
+**Current product decision:** weekly public registry snapshots plus direct NAV / Job Bank links. Archived ads are explicitly archived. No private live-vacancy feed, signup or token is required; deployment does not inject feed secrets. The dormant adapter remains tested for historical compatibility, not part of the current setup plan.
 
 ## Phase 2 — Qualifications and sources
 
@@ -16,7 +14,7 @@ Each of the 12 modules links directly to government or public official sources a
 
 ## Phase 3 — Learning
 
-The shared interface adds «Следующий незавершённый урок» and official study links. Existing 12 modules, 24 quiz questions, supplemental older lessons, local completion tracking and backup are preserved. This platform does not issue STCW, MED, or any other licensed maritime certificate.
+The shared interface adds «Следующий незавершённый урок» and official study links. Existing 12 modules, 60 quiz questions per language, supplemental older lessons, local completion tracking and backup are preserved. This platform does not issue STCW, MED, or any other licensed maritime certificate.
 
 ## Phase 4 — Shared components
 
@@ -44,7 +42,7 @@ Public dashboard: https://qexus.github.io/status.html
 - Scope GitHub write permission to Canada build stage only.
 - Published privacy and SECURITY.md documentation.
 
-**Remaining risks:** `style-src 'unsafe-inline'`, generated `innerHTML` needs security-focused fuzz tests, major version GitHub Actions pinning to verified SHAs, full automated browser tests, and no guarantee from regex-based secret scans. GitHub Pages meta CSP is not a substitute for all security response headers.
+**Remaining risks:** `style-src 'unsafe-inline'`, generated `innerHTML` needs security-focused fuzz tests, full automated browser tests, and no guarantee from regex-based secret scans. GitHub Pages meta CSP is not a substitute for all security response headers.
 
 ## Validation
 
@@ -52,8 +50,4 @@ Country Pages builds run Python unit tests, JS syntax checks, content tests and 
 
 ## Priority after this release
 
-1. Obtain authorized live job-data provider with clear redistribution and removal terms.
-2. Connect an appropriate production feed without putting private tokens in public GitHub.
-3. Add browser regression tests and stronger CSP without inline styles.
-4. Improve qualifications by verifying actual fees and availability on a recurring cadence.
-5. Migrate remaining duplicated app rendering to a shared codebase.
+See [BFISHERMAN_ROADMAP.md](BFISHERMAN_ROADMAP.md): a guided candidate journey, application pack and tracker, practical scenarios, and higher-quality source verification. Keep the weekly registry / official-link model selected by the project owner.

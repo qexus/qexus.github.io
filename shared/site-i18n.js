@@ -11,7 +11,7 @@ const label={ru:'Язык страницы',fr:'Langue de la page',uk:'Мова 
 const current={ru:'Русский',fr:'Français',uk:'Українська'};
 const siteRoot='https://qexus.github.io';
 function swapValue(value){const trimmed=value.trim();if(!trimmed)return value;
-  let target=L[trimmed];
+  let target=window.QX_APP_I18N?.[lang]?.[trimmed] || L[trimmed];
   if(!target){
     const m=/^Показано: (\d+) из (\d+) вакансий\.$/.exec(trimmed);
     if(m) target=lang==='fr'?'Affichées : '+m[1]+' sur '+m[2]+' offres.':lang==='uk'?'Показано: '+m[1]+' із '+m[2]+' вакансій.':null;
@@ -23,6 +23,7 @@ function swapValue(value){const trimmed=value.trim();if(!trimmed)return value;
   return target?value.replace(trimmed,target):value;
 }
 const ineligible=new Set(['SCRIPT','STYLE','NOSCRIPT','TEXTAREA','CODE','PRE','SVG']);
+function skipText(node){return !node.parentElement || ineligible.has(node.parentElement.tagName) || !!node.parentElement.closest('textarea,[contenteditable="true"],[data-no-translate]');}
 function translateElement(root){
  if(lang==='ru'||!(root instanceof Element))return;
  // An option without value uses its text as its value. Freeze it before translating.
@@ -32,18 +33,22 @@ function translateElement(root){
  const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);
  let node;
  while((node=walker.nextNode())){
-   if(node.parentElement&&(ineligible.has(node.parentElement.tagName)||node.parentElement.closest('textarea,[contenteditable="true"],[data-no-translate]')))continue;
+   if(skipText(node))continue;
    const converted=swapValue(node.nodeValue||'');
    if(converted!==node.nodeValue)node.nodeValue=converted;
  }
  const attrs=['title','aria-label','placeholder','alt'];
  for(const el of [root,...root.querySelectorAll('*')]){
+  if(el.closest('[data-no-translate],textarea,[contenteditable="true"]'))continue;
   for(const attr of attrs){if(el.hasAttribute(attr)){const val=el.getAttribute(attr),next=swapValue(val);if(next!==val)el.setAttribute(attr,next)}}
  }
 }
 // Separate, crawlable translations for completed pages; other tools retain dynamic UI localization.
 function staticLocalizedPath(path,desired){
- if(!['fr','uk'].includes(desired))return null;
+ if(!['ru','fr','uk'].includes(desired))return null;
+ // Normalize existing locale folders before selecting another edition.
+ path=path.replace(/^\/(fr|uk)(?=\/)/,'').replace(/^\/(manac|fisheries|fisheries-ca)\/(fr|uk)(?=\/)/,'/$1');
+ if(desired==='ru')return path;
  if(path==='/')return '/'+desired+'/';
  if(['/work.html','/site-map.html','/status.html','/privacy.html'].includes(path))return '/'+desired+path;
  if(path==='/manac/' || path==='/manac/index.html')return '/manac/'+desired+'/';
@@ -66,7 +71,7 @@ function localizeLinks(root){
     if(url.origin!==siteRoot)continue;
     else if(lang!=='ru'){
     const localized=url.searchParams.has('view')||url.searchParams.has('lesson')?null:staticLocalizedPath(url.pathname,lang);
-    if(localized){url.pathname=localized;url.searchParams.delete('lang');a.href=url.href}
+    if(localized){url.pathname=localized;url.searchParams.delete('lang');if(a.href!==url.href)a.href=url.href}
     else if(url.searchParams.get('lang')!==lang){url.searchParams.set('lang',lang);a.href=url.href}
    }
     else if(url.searchParams.has('lang')){url.searchParams.delete('lang');a.href=url.href}
@@ -74,11 +79,11 @@ function localizeLinks(root){
  }
 }
 function refreshSwitch(){
- const nav=document.querySelector('.qx-language-switch');if(!nav)return;
+ const nav=document.querySelector('.qx-language-switch');if(!nav)return;nav.setAttribute('data-no-translate','');
  for(const a of nav.querySelectorAll('a[hreflang]')){
   const key=a.hreflang,url=new URL(location.href);
   const dest=url.searchParams.has('view')||url.searchParams.has('lesson')?null:staticLocalizedPath(url.pathname,key);
-  if(key==='ru')url.searchParams.delete('lang');
+  if(key==='ru'){url.searchParams.delete('lang');if(dest)url.pathname=dest;}
   else if(dest){url.pathname=dest;url.searchParams.delete('lang')}
   else url.searchParams.set('lang',key);
   a.href=url.pathname+url.search+url.hash;
@@ -86,11 +91,12 @@ function refreshSwitch(){
 }
 function renderSwitch(){
  if(document.querySelector('.qx-language-switch'))return;
- const nav=document.createElement('nav');nav.className='qx-language-switch';nav.setAttribute('aria-label',label[lang]);
+ const nav=document.createElement('nav');nav.className='qx-language-switch';nav.setAttribute('data-no-translate','');nav.setAttribute('aria-label',label[lang]);
  for(const [key,t] of Object.entries({ru:'RU',fr:'FR',uk:'UK'})){
    const a=document.createElement('a');
    const url=new URL(location.href);
-   if(key==='ru')url.searchParams.delete('lang');else {const staticPath=url.searchParams.has('view')||url.searchParams.has('lesson')?null:staticLocalizedPath(url.pathname,key);if(staticPath){url.pathname=staticPath;url.searchParams.delete('lang')}else url.searchParams.set('lang',key)}
+   const dest=url.searchParams.has('view')||url.searchParams.has('lesson')?null:staticLocalizedPath(url.pathname,key);
+   if(dest){url.pathname=dest;url.searchParams.delete('lang')}else if(key==='ru')url.searchParams.delete('lang');else url.searchParams.set('lang',key);
    a.href=url.pathname+url.search+url.hash;
    a.textContent=t;a.setAttribute('hreflang',key);
    a.title=current[key];
@@ -122,6 +128,7 @@ function localizePageMeta(){
 function init(){
  localizePageMeta();
  renderSwitch();
+ document.querySelector('.qx-language-switch')?.setAttribute('data-no-translate','');
  window.addEventListener('qx:routechange',refreshSwitch);
  window.addEventListener('popstate',refreshSwitch);
  translateElement(document.body);
@@ -132,8 +139,8 @@ function init(){
  window.dispatchEvent(new Event("qx:language-ready"));
  const observer=new MutationObserver(records=>{
    for(const record of records){
-    for(const node of record.addedNodes){if(node.nodeType===1){translateElement(node);localizeLinks(node)}else if(node.nodeType===3){const next=swapValue(node.nodeValue||'');if(next!==node.nodeValue)node.nodeValue=next}}
-    if(record.type==='characterData'&&record.target.parentElement&&!ineligible.has(record.target.parentElement.tagName)){
+    for(const node of record.addedNodes){if(node.nodeType===1){translateElement(node);localizeLinks(node)}else if(node.nodeType===3&&!skipText(node)){const next=swapValue(node.nodeValue||'');if(next!==node.nodeValue)node.nodeValue=next}}
+    if(record.type==='characterData'&&!skipText(record.target)){
       const next=swapValue(record.target.nodeValue||'');if(next!==record.target.nodeValue)record.target.nodeValue=next;
     }
    }
