@@ -1,0 +1,34 @@
+/* qexus lab: one responsive footer design for portfolio, Fisheries and Manac. */
+.qx-footer,.page>footer{
+  border-top:1px solid #2b4b5d;
+  background:linear-gradient(180deg,rgba(17,43,56,.55),rgba(7,22,35,.15));
+  color:#98b2bf;
+  font:400 12px/1.65 Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+}
+footer.qx-footer{display:block;padding:0;margin:0;min-width:0;}
+.qx-footer .qx-footer__inner{
+  width:100%;max-width:1320px;margin:0 auto;
+  padding:25px clamp(16px,3vw,35px) 30px;
+  display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;gap:16px 28px;min-width:0;
+}
+.qx-footer .qx-footer__meta{flex:1 1 270px;min-width:0;display:flex;flex-direction:column;gap:4px;}
+.qx-footer .qx-footer__brand{color:#e0eff0;font-size:12px;font-weight:750;letter-spacing:.02em;}
+.qx-footer .qx-footer__note{font-size:11px;color:#9cb4bf;line-height:1.7;overflow-wrap:anywhere;}
+.qx-footer .qx-footer__links{
+  display:flex;flex:1 1 260px;align-items:center;justify-content:flex-end;
+  flex-wrap:wrap;gap:9px 19px;min-width:0;
+}
+.qx-footer a,.page>footer a{color:#a5ddd3;text-decoration:none;text-underline-offset:4px;font-weight:650;}
+.qx-footer a:hover,.page>footer a:hover{color:#e6fff7;text-decoration:underline;}
+.qx-footer a:focus-visible,.page>footer a:focus-visible{outline:2px solid #4adac2;outline-offset:4px;border-radius:3px;}
+/* Existing main-site footers use simpler markup but the same visual treatment. */
+.page>footer{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;
+  gap:12px 24px;padding:25px 0 38px;color:#98b2bf;font-size:12px;}
+.page>footer>span:first-child{color:#e0eff0;font-weight:750;}
+@media(max-width:680px){
+  .qx-footer .qx-footer__inner{padding:21px 16px 27px;align-items:flex-start;flex-direction:column;gap:14px;}
+  .qx-footer .qx-footer__meta,.qx-footer .qx-footer__links{flex:0 1 auto;width:100%;}
+  .qx-footer .qx-footer__links{justify-content:flex-start;gap:10px 18px;}
+  .page>footer{align-items:flex-start;flex-direction:column;gap:7px;padding:22px 0 30px;}
+}
