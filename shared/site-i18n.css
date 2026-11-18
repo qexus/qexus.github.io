@@ -1,3 +1,4 @@
+@import url('/shared/qx-footer.css');
 /* Accessible language selector shared by all qexus projects */
 .qx-language-switch{display:flex;gap:4px;align-items:center;flex-wrap:nowrap;margin-left:auto;padding:5px;border:1px solid #395665;background:#122c3a;border-radius:11px;position:relative;z-index:5}
 .qx-language-switch a{display:inline-flex;justify-content:center;align-items:center;min-width:34px;min-height:34px;padding:7px 8px;text-decoration:none!important;border-radius:7px;font:800 11px/1 system-ui,-apple-system,sans-serif;letter-spacing:.4px;color:#a6c7d0!important}
