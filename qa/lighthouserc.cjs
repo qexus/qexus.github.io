@@ -14,6 +14,7 @@ module.exports = {
       },
     },
     assert: {
+      // Second baseline: compare published builds after Manac accessible-name/CSP/image and repository publishing fixes.
       // Report low scores rather than failing deployment due to network variability.
       assertions: {
         'categories:performance': ['warn', { minScore: 0.6 }],
