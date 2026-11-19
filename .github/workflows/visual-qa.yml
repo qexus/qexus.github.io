@@ -1,0 +1,58 @@
+name: Visual QA · QEXUS four sites
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/visual-qa.yml'
+      - 'qa/**'
+      - 'shared/**'
+      - 'index.html'
+      - 'fr/**'
+      - 'uk/**'
+      - 'work.html'
+      - 'site-map.html'
+      - 'styles.css'
+  schedule:
+    - cron: '23 9 * * 0' # Weekly Sunday; best-effort GitHub Actions timing
+
+permissions:
+  contents: read
+
+concurrency:
+  group: qexus-visual-qa
+  cancel-in-progress: true
+
+jobs:
+  browser-qa:
+    name: Chromium desktop + WebKit iPhone · four public sites
+    runs-on: ubuntu-latest
+    timeout-minutes: 24
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: '22'
+      - name: Install pinned Playwright test runner
+        working-directory: qa
+        run: npm install --no-audit --no-fund --ignore-scripts
+      - name: Install Chromium and WebKit with system dependencies
+        working-directory: qa
+        run: npx playwright install --with-deps chromium webkit
+      - name: Run published-site browser, mobile and interaction tests
+        working-directory: qa
+        env:
+          CI: 'true'
+          QA_SITE: all
+        run: npx playwright test
+      - name: Upload screenshots, traces and HTML report
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: qexus-visual-qa-all
+          path: |
+            qa/playwright-report/
+            qa/test-results/
+          if-no-files-found: warn
+          retention-days: 14
