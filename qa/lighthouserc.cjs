@@ -14,7 +14,7 @@ module.exports = {
       },
     },
     assert: {
-      // Second baseline: compare published builds after Manac accessible-name/CSP/image and repository publishing fixes.
+      // Third mobile measurement: compare after CSS reserves the hydration viewport in both Fisheries apps.
       // Report low scores rather than failing deployment due to network variability.
       assertions: {
         'categories:performance': ['warn', { minScore: 0.6 }],
