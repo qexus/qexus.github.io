@@ -1,0 +1,43 @@
+name: QEXUS · Weekly source-link reachability
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/source-qa.yml'
+      - 'qa/check_sources.mjs'
+  schedule:
+    - cron: '27 9 * * 2' # Tuesday, after the existing Monday public registry refreshes
+
+permissions:
+  contents: read
+
+concurrency:
+  group: qexus-source-qa
+  cancel-in-progress: true
+
+jobs:
+  source-links:
+    name: Verify external HTTP reachability (not vacancy validity)
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: '22'
+      - name: Validate source checker syntax
+        run: node --check qa/check_sources.mjs
+      - name: Check all curated official company, government and training links
+        run: node qa/check_sources.mjs
+      - name: Publish link review JSON and readable Markdown
+        if: ${{ always() }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: qexus-source-link-review
+          path: |
+            source-link-health.json
+            source-link-health.md
+          if-no-files-found: warn
+          retention-days: 14
