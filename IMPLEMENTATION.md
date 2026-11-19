@@ -84,6 +84,16 @@ First end-to-end browser execution completed successfully in the Canada QA workf
 
 **Limits:** These checks visit published Pages after deployment, and do not gate the existing pre-publish data/registry build. WebKit mobile simulation is not testing on a physical iPhone; actual iOS Safari, PDF typography and an independent editorial/regulatory review remain necessary before full roadmap sign-off. Registry refresh cadence remains weekly; there is no manual refresh token/button or additional paid browser service.
 
+## Phase 12 — Screenshot-driven fixes and weekly official-link reachability (18 November 2026, Quebec)
+
+Downloaded and inspected the existing 76-pass Playwright screenshot artifact. Although the previous browser tests passed, mobile French Fisheries dashboard screenshots exposed Russian quick-start buttons and a clipped breadcrumb under the language selector. The shared fisheries-router.js now provides explicit RU/FR/UK quick-start text, aria labels and lesson permalink copy. A shared responsive grid layout in fisheries-router.css reserves a full second header row for a readable breadcrumb on narrow screens, with language and country controls above.
+
+Added browser assertions verifying these text translations and mobile header geometry, and added FR/UK lesson deep-link checks. After publication, the complete GitHub Actions browser run https://github.com/qexus/qexus.github.io/actions/runs/44445655624 passed **84/84 tests**, with screenshot artifacts; the new screenshots were inspected manually and show untruncated headers and French/UK quick starts. This verifies desktop Chromium and emulated iPhone WebKit, not a physical iPhone.
+
+Created separate weekly source-link QA workflow https://github.com/qexus/qexus.github.io/actions/runs/44445624926. It loads both published public Fisheries career/qualification catalogues, deduplicates curated official resources and checks HTTPS availability without copying applicant data, scraping protected sources, or editing manual verification dates. First run: **26 URLs checked, 26 reachable**, no catalog fetch failures. A 200 status proves the URL responded, not that the underlying vacancy or regulatory text is still current. Other statuses remain report-only to prevent false 'broken' reports from anti-bot protections. The browser workflow no longer reruns just because source-checking code or documentation changes, reducing GitHub Actions minutes.
+
+Published MOBILE_QA_CHECKLIST.md for safe real-iPhone Safari review of navigation, country/language switching, practical quizzes, local CV, synthetic applications and native PDF printing. **Remaining sign-off gates:** physical iPhone Safari and print preview; independent professional safety, immigration and native-speaker editorial review. Until completed, retain public AUDIT_2026-11-18.md as the project owner requested.
+
 ## Validation
 
 Country Pages builds run Python unit tests, JS syntax checks, content tests and security scans. Browser QA verified new vacancy-source panel, archived-status warnings, 12 modules, next-lesson navigation, qualification prices and source links on Norway and Canada. Public site monitoring has a scheduled and push-triggered check; monitor result may briefly fail during publication before new URLs become live.
