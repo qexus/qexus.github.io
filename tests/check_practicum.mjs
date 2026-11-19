@@ -61,6 +61,13 @@ for(const country of ['norway','canada']){
     assert(app.main.innerHTML.includes(label),'Correct translated heading: '+country+' '+lang);
     assert(app.main.innerHTML.includes('data-no-translate="true"'));
     assert(app.main.innerHTML.includes('role="progressbar"'));
+    assert(app.main.innerHTML.includes('qp-guide'),'Illustrated reference guide must appear in practical training');
+    assert((app.main.innerHTML.match(/class="qp-diagram"/g)||[]).length===4,'Four diagrams: vessels, fishing gear, processing and aquaculture');
+    assert(app.main.innerHTML.includes(lang==='fr'?'Schémas pour comprendre':lang==='uk'?'Наочні схеми':'Наглядные схемы'));
+    assert(app.main.innerHTML.includes('role="group"'),'Conceptual flow must expose readable labels to assistive technology');
+    app.events.toggle({target:{matches:sel=>sel==='.qp-guide',open:true}});
+    app.api.render();
+    assert(app.main.innerHTML.includes('class="qp-guide" open'),'Diagram disclosure stays open after rerenders');
     assert(app.main.innerHTML.includes('rel="noopener noreferrer"'));
     const cases=app.api.scenarios();
     assert.equal(cases.length,6,'Exactly six editorial scenarios for each country');
