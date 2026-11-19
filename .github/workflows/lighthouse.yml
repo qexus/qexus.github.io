@@ -8,6 +8,12 @@ on:
       - '.github/workflows/lighthouse.yml'
       - 'qa/lighthouserc.cjs'
       - 'qa/summarize_lighthouse.mjs'
+      - 'index.html'
+      - 'fr/index.html'
+      - 'uk/index.html'
+      - 'styles.css'
+      - 'shared/site-i18n.css'
+      - 'shared/qx-footer.css'
   schedule:
     - cron: '52 8 * * 0' # Weekly Sunday after deployments
 
