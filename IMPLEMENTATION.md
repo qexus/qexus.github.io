@@ -74,6 +74,16 @@ The 14 role profiles show source type (public authority versus employer referenc
 
 Remaining release gates before calling the overall roadmap fully complete: human occupational-safety and immigration/editorial review, full external-link revalidation, and physical mobile Safari interactive/print layout QA. Until those gates pass, retain the public audit file as previously agreed.
 
+## Phase 11 — Playwright browser QA on GitHub Actions (18 November 2026, Quebec time)
+
+Added a centralized qa/ Playwright suite for all four public sites: portfolio, Fisheries Norway, Fisheries Canada and Manac. Desktop Chromium (1366px) and WebKit iPhone 13 emulation exercise RU/FR/UK pages, horizontal scrolling, mobile header, links and footers, Manac search/filter, Fisheries navigation/history, candidate journey, browser-only CV and application tracker, simulated print action, quiz feedback and progress after reload.
+
+Root GitHub Actions visual-qa.yml runs on shared/front-end changes, weekly and manually, publishing HTML reports, screenshots and failure traces as 14-day artifacts. Country pipelines have their own post-successful-deployment visual-qa.yml checks that checkout the centralized public suite from qexus.github.io, scoped by QA_SITE=norway/canada. Manac has a scoped workflow triggered by website-relevant pushes and manual dispatch.
+
+First end-to-end browser execution completed successfully in the Canada QA workflow with **76 tests passed** across all four sites and both browser projects. This initial broad run exposed a QA_SITE environment variable typo in country workflows; it has been corrected so future country runs test only their own site. Artifacts contain synthetic mock candidate data, not visitors' records.
+
+**Limits:** These checks visit published Pages after deployment, and do not gate the existing pre-publish data/registry build. WebKit mobile simulation is not testing on a physical iPhone; actual iOS Safari, PDF typography and an independent editorial/regulatory review remain necessary before full roadmap sign-off. Registry refresh cadence remains weekly; there is no manual refresh token/button or additional paid browser service.
+
 ## Validation
 
 Country Pages builds run Python unit tests, JS syntax checks, content tests and security scans. Browser QA verified new vacancy-source panel, archived-status warnings, 12 modules, next-lesson navigation, qualification prices and source links on Norway and Canada. Public site monitoring has a scheduled and push-triggered check; monitor result may briefly fail during publication before new URLs become live.
