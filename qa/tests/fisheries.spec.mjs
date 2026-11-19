@@ -12,6 +12,37 @@ for (const country of sitesForRun(['norway', 'canada'])) {
         await openPage(page, base + '?lang=' + lang);
         await expect(page.locator('#main h1').first()).toBeVisible({ timeout: 15_000 });
         await expect(page.locator('#nav')).toBeAttached();
+        // Screenshots caught an untranslated Russian quick-start in FR/UK even
+        // though the standard route and overflow tests had all passed.
+        const quick = page.locator('.qf-first-steps');
+        await expect(quick).toBeVisible();
+        await expect(quick.locator('.qf-step')).toHaveCount(4);
+        const quickLabels = {
+          ru: ['С чего начать', 'Мой маршрут', 'Найти работодателя', 'Выбрать профессию', 'Начать обучение'],
+          fr: ['Par où commencer', 'Mon parcours', 'Trouver un employeur', 'Choisir un métier', 'Commencer la formation'],
+          uk: ['З чого почати', 'Мій маршрут', 'Знайти роботодавця', 'Обрати професію', 'Почати навчання'],
+        };
+        const quickText = await quick.innerText();
+        for (const label of quickLabels[lang]) expect(quickText).toContain(label);
+        if (lang === 'fr') expect(quickText, 'French quick-start must not leak Russian text').not.toMatch(/[А-Яа-яЁё]/);
+        if (testInfo.project.name === 'iphone-webkit') {
+          const headerGeometry = await page.evaluate(() => {
+            const top = document.querySelector('header.topbar,header.header');
+            const crumb = top?.querySelector('.crumb,.breadcrumb');
+            const languages = top?.querySelector('.qx-language-switch');
+            if (!top || !crumb || !languages) return null;
+            const cr = crumb.getBoundingClientRect(), lr = languages.getBoundingClientRect();
+            return { crumbY: cr.y, languagesBottom: lr.bottom,
+              crumbWidth: crumb.clientWidth, crumbScroll: crumb.scrollWidth,
+              topBottom: top.getBoundingClientRect().bottom };
+          });
+          expect(headerGeometry, 'Expected Fisheries mobile header structure').not.toBeNull();
+          expect(headerGeometry.crumbY, 'Breadcrumb should have its own full-width row')
+            .toBeGreaterThanOrEqual(headerGeometry.languagesBottom - 1);
+          expect(headerGeometry.crumbScroll, 'Current page breadcrumb must not be cut off on iPhone 13')
+            .toBeLessThanOrEqual(headerGeometry.crumbWidth + 3);
+          expect(headerGeometry.topBottom).toBeGreaterThan(headerGeometry.crumbY);
+        }
         await expect(page.locator('footer.qx-footer')).toBeVisible();
         await assertNoHorizontalOverflow(page, country + ' dashboard ' + lang);
         await screenshot(page, testInfo, country + '-' + lang + '-dashboard');
@@ -60,6 +91,7 @@ for (const country of sitesForRun(['norway', 'canada'])) {
       await page.locator('#nav [data-qj-view="journey"]').click();
       await expect(page.locator('#qj-title')).toBeVisible();
       await expect(page).toHaveURL(/view=journey/);
+      // Verify the dynamic dashboard shortcuts after returning via History.
       await page.goBack();
       await expect(page.locator('#main h1').first()).toBeVisible();
       await expect(page).not.toHaveURL(/view=journey/);
