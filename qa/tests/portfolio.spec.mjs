@@ -12,6 +12,9 @@ test.describe('QEXUS portfolio, localized work hub and shared footer', () => {
       await expect(page.locator('main h1').first()).toBeVisible();
       await expect(page.locator('.portfolio-hub')).toBeVisible();
       await expect(page.locator('.portfolio-hub')).toHaveAttribute('href', '/' + prefix + 'work.html');
+      const uaLink = page.locator('.qx-language-switch a[hreflang="uk"]');
+      await expect(uaLink).toHaveText('UA');
+      await expect(uaLink).toHaveAttribute('href', /(?:\/uk\/|[?&]lang=uk)/);
       await assertNoHorizontalOverflow(page, 'Portfolio ' + lang);
       await screenshot(page, testInfo, 'portfolio-' + lang + '-hero');
       const footer = page.locator('footer');
