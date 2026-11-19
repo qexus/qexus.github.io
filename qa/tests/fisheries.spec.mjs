@@ -97,8 +97,8 @@ for (const country of sitesForRun(['norway', 'canada'])) {
         } catch { window.__qxCls = null; } // WebKit may not implement LayoutShift.
       });
       await openPage(page, base);
-      await expect(page.locator('#main .hero')).toBeVisible({ timeout: 15000 });
-      await expect.poll(() => page.locator('#main .hero').evaluate(el => el.getBoundingClientRect().height)).toBeGreaterThan(100);
+      await expect(page.locator('#main .norway-hero, #main .hero')).toBeVisible({ timeout: 15000 });
+      await expect.poll(() => page.locator('#main .norway-hero, #main .hero').evaluate(el => el.getBoundingClientRect().height)).toBeGreaterThan(100);
       const proof = await page.evaluate(() => ({
         minHeight: getComputedStyle(document.querySelector('#main')).minHeight,
         viewport: innerHeight
