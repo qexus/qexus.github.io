@@ -17,6 +17,9 @@ on:
       - 'shared/candidate-journey.css'
       - 'shared/fisheries-router.js'
       - 'tests/check_journey.mjs'
+      - 'shared/candidate-desk.js'
+      - 'shared/candidate-desk.css'
+      - 'tests/check_desk.mjs'
       - 'sitemap.xml'
       - 'site-map.html'
   schedule:
@@ -41,6 +44,8 @@ jobs:
           node --check shared/candidate-journey.js
           node --check shared/fisheries-router.js
           node tests/check_journey.mjs
+          node --check shared/candidate-desk.js
+          node tests/check_desk.mjs
       - name: Check all four projects, sitemap, and official snapshot sizes
         run: python scripts/monitor_sites.py --output site-health.json
       - name: Attach read-only health report
