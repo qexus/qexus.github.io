@@ -18,9 +18,11 @@ class PublishedSurfaceTests(unittest.TestCase):
         for name in ('BFISHERMAN_ROADMAP.md', 'IMPLEMENTATION.md', 'MOBILE_QA_CHECKLIST.md', 'BRAND.md', 'SECURITY.md'):
             self.assertFalse((ROOT / name).exists(), name)
 
-    def test_operational_docs_retained_outside_site(self):
+    def test_internal_project_notes_absent_from_current_public_tree(self):
+        # GitHub Pages exclusions alone don't conceal files in a public repository.
         for name in ('BFISHERMAN_ROADMAP.md', 'IMPLEMENTATION.md', 'MOBILE_QA_CHECKLIST.md', 'BRAND.md'):
-            self.assertTrue((ROOT / '.github/project' / name).exists(), name)
+            self.assertFalse((ROOT / '.github/project' / name).exists(), name)
+        # Keep standard public disclosure and security documentation available.
         self.assertTrue((ROOT / '.github/SECURITY.md').exists())
 
     def test_public_web_assets_are_still_present(self):
