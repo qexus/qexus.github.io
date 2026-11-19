@@ -10,6 +10,9 @@ on:
       - 'scripts/build_sitemap.py'
       - 'tests/test_sitemap.py'
       - 'tests/check_i18n.mjs'
+      - 'tests/check_static_language_labels.mjs'
+      - 'fr/**'
+      - 'uk/**'
       - 'shared/site-i18n.js'
       - 'shared/site-i18n.css'
       - 'shared/qx-footer.css'
@@ -41,7 +44,9 @@ jobs:
       - name: Test health-check rules
         run: python -m unittest discover -s tests -v
       - name: Test language navigation
-        run: node tests/check_i18n.mjs
+        run: |
+          node tests/check_i18n.mjs
+          node tests/check_static_language_labels.mjs
       - name: Test candidate journey (Norway and Canada)
         run: |
           node --check shared/candidate-journey.js
