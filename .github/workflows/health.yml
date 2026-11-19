@@ -20,6 +20,9 @@ on:
       - 'shared/candidate-desk.js'
       - 'shared/candidate-desk.css'
       - 'tests/check_desk.mjs'
+      - 'shared/practicum.js'
+      - 'shared/practicum.css'
+      - 'tests/check_practicum.mjs'
       - 'sitemap.xml'
       - 'site-map.html'
   schedule:
@@ -46,6 +49,8 @@ jobs:
           node tests/check_journey.mjs
           node --check shared/candidate-desk.js
           node tests/check_desk.mjs
+          node --check shared/practicum.js
+          node tests/check_practicum.mjs
       - name: Check all four projects, sitemap, and official snapshot sizes
         run: python scripts/monitor_sites.py --output site-health.json
       - name: Attach read-only health report
