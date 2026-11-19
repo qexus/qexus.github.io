@@ -50,10 +50,18 @@ The shared candidate-journey.js / candidate-journey.css provide a manual, local-
 
 Both Fisheries apps include the journey in existing JSON backup/restore, validate its schema before restoring, preserve older backups and protect the open journey from background registry refreshes. The root privacy policy is updated in all three languages. CI checks the menu, history wiring, translations, data handling and backup compatibility. Full mobile browser QA remains pending.
 
+## Phase 8 — Local candidate pack and application tracker (18 November 2026)
+
+A shared candidate-desk.js / candidate-desk.css module provides a RU/FR/UK CV editor, factual cover-letter templates for shore, vessel and aquaculture roles, a print/PDF-friendly preview, and a local-only application board. Cards contain user-entered employer/role, optional HTTPS source link, application/follow-up dates, six status choices and notes, with edit/filter/delete. No application is submitted or CV uploaded by the site.
+
+Norway and Canada keep independent localStorage keys. Existing JSON backup/restore includes the complete candidate desk and validates schema, dates, links, data size and country before restoring. Prior backups without the desk remain supported. The app preserves an open desk while registries refresh in the background. The common router supports ?view=desk; localized landing pages link directly to it. Privacy policies disclose that names/contact details and application notes may be in downloaded JSON; users should protect their copies.
+
+Validation: all shared mock-DOM scenarios and both country build/deploy tests passed, including form edit/delete, unsafe URL and impossible-date rejection, and data escaping. Live HTML confirms menus and CSS are published. Real-device interactive and print visual QA is not claimed.
+
 ## Validation
 
 Country Pages builds run Python unit tests, JS syntax checks, content tests and security scans. Browser QA verified new vacancy-source panel, archived-status warnings, 12 modules, next-lesson navigation, qualification prices and source links on Norway and Canada. Public site monitoring has a scheduled and push-triggered check; monitor result may briefly fail during publication before new URLs become live.
 
 ## Priority after this release
 
-See [BFISHERMAN_ROADMAP.md](BFISHERMAN_ROADMAP.md): the next priorities are the candidate application pack and tracker, practical scenarios, and higher-quality source verification; the guided candidate journey is now implemented. Keep the weekly registry / official-link model selected by the project owner.
+See [BFISHERMAN_ROADMAP.md](BFISHERMAN_ROADMAP.md): candidate journey and application pack/tracker are implemented. The next priorities are practical scenarios and higher-quality source verification. Keep the weekly registry / official-link model selected by the project owner.
