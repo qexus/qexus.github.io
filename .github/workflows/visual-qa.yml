@@ -6,7 +6,9 @@ on:
     branches: [main]
     paths:
       - '.github/workflows/visual-qa.yml'
-      - 'qa/**'
+      - 'qa/tests/**'
+      - 'qa/playwright.config.mjs'
+      - 'qa/package.json'
       - 'shared/**'
       - 'index.html'
       - 'fr/**'
