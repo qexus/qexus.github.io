@@ -25,3 +25,50 @@
  .qf-step{flex:1 1 150px;text-align:center}
 }
 @media(prefers-reduced-motion:reduce){.qf-step{transition:none!important}}
+
+/* On narrow phones keep the language and country switchers on a compact row,
+   then reserve a full-width second row for the current page breadcrumb.
+   This avoids the ellipsized "Aperç..." title visible in WebKit screenshots. */
+@media(max-width:740px){
+  header.topbar,header.header{
+    display:grid;
+    grid-template-columns:34px minmax(0,1fr) auto;
+    grid-template-areas:"menu languages country" "crumb crumb crumb";
+    column-gap:7px;
+    row-gap:5px;
+    height:auto;
+    min-height:92px;
+    align-items:center;
+    padding:8px 14px;
+    justify-content:stretch;
+  }
+  header.topbar #menuToggle,header.header #menuToggle{
+    grid-area:menu;
+    min-width:32px;
+    min-height:37px;
+    justify-self:start;
+  }
+  header.topbar .qx-language-switch,header.header .qx-language-switch{
+    grid-area:languages;
+    justify-self:end;
+    margin-left:0;
+  }
+  header.topbar .top-right,header.header .header-r{
+    grid-area:country;
+    margin-left:0;
+    justify-self:end;
+    gap:5px;
+    min-width:0;
+  }
+  header.topbar .crumb,header.header .breadcrumb{
+    grid-area:crumb;
+    min-width:0;
+    max-width:100%;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    font-size:12px;
+    line-height:1.45;
+  }
+  header.topbar .version-pill,header.header .version{display:none}
+}
