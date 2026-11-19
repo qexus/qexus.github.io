@@ -163,10 +163,10 @@
     list.push({id:'eligibility',title:'eligibilityTitle',desc:country==='canada'?'eligibilityCa':'eligibilityNo',proof:'eligibilityProof',href:officialUrl(),external:true});
     list.push({id:'language',title:'languageTitle',desc:'languageDesc',proof:'languageProof',href:localUrl('glossary')});
     list.push({id:'qualification',title:'qualificationTitle',desc:p.track==='vessel'?'qualificationVessel':p.track==='aquaculture'?'qualificationAqua':'qualificationShore',proof:'qualificationProof',href:qualification});
-    list.push({id:'cv',title:'cvTitle',desc:'cvDesc',proof:'cvProof',href:localUrl('documents')});
+    list.push({id:'cv',title:'cvTitle',desc:'cvDesc',proof:'cvProof',href:localUrl('desk')});
     list.push({id:'employer',title:'employerTitle',desc:'employerDesc',proof:'employerProof',href:localUrl('employers')});
     list.push({id:'apply',title:'applyTitle',desc:'applyDesc',proof:'applyProof',href:localUrl('career')});
-    list.push({id:'followup',title:'followupTitle',desc:'followupDesc',proof:'followupProof',href:localUrl('career')});
+    list.push({id:'followup',title:'followupTitle',desc:'followupDesc',proof:'followupProof',href:localUrl('desk')});
     return list;
   }
   const control = (id,name,options) => '<label class="qj-field" for="qj-'+id+'"><span>'+safe(tr(name))+'</span><select id="qj-'+id+'" data-qj-field="'+id+'">'+options.map(([key,label])=>'<option value="'+key+'"'+(state.profile[id]===key?' selected':'')+'>'+safe(tr(label))+'</option>').join('')+'</select></label>';
