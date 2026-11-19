@@ -12,6 +12,9 @@ test.describe('Manac careers — iPhone layout, filters and localized pages', ()
       await expect(page.locator('main h1').first()).toBeVisible();
       await expect(page.locator('article.job')).toHaveCount(11);
       await expect(page.locator('article.job:not([hidden])')).toHaveCount(11);
+      const uaLink = page.locator('.qx-language-switch a[hreflang="uk"]');
+      await expect(uaLink).toHaveText('UA');
+      await expect(uaLink).toHaveAttribute('href', /(?:\/uk\/|[?&]lang=uk)/);
       await assertNoHorizontalOverflow(page, 'Manac ' + lang);
       await screenshot(page, testInfo, 'manac-' + lang + '-hero');
       await page.locator('footer').scrollIntoViewIfNeeded();
