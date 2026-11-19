@@ -66,10 +66,18 @@ Correct answers contribute only to a non-certifying study score; answers are sav
 
 QA: Node mock-DOM scenario/translation checks, payload-shape tests, static accessibility assertions, country CI deployments and public asset verification. No automatic data transmission. Official references were rechecked against regulator/authority pages. Pending: real-device interactive layout, specialist safety editorial review and native-speaker translation proofreading. Voice pronunciation and formal certificates were not implemented.
 
+## Phase 10 — Source and catalogue integrity (18 November 2026)
+
+Both country catalogues now distinguish company career sites from a public Job Bank employer-search page. Of thirteen selected career channels, twelve company page addresses were rechecked against indexed public company pages and one Job Bank search retains its earlier source-check date. Each record exposes its check date, evidence kind, and explicit unknown vacancy and working-language status. The shared employer renderer displays these facts in RU/FR/UK, and marks entries older than 45 days as needing review. Generic Norwegian shore work and Canadian industrial mechanic references were replaced by role-relevant official workplace safety and Job Bank occupational-requirements pages.
+
+The 14 role profiles show source type (public authority versus employer reference), applicability, and manual review date; published price examples remain historical and require rechecking. Norway NAV and Canada Job Bank cards show an explicit historical-snapshot warning; these are not verified-live vacancies. Reference-data.js and reference-i18n.js remain synchronized for all three languages. New Node tests exercise metadata validity, source dates, renderer proof labels, stale warnings, and archive language. Country builds, translations and GitHub Pages deployments passed. This release did not change registry cadence or introduce an on-demand scraping workflow.
+
+Remaining release gates before calling the overall roadmap fully complete: human occupational-safety and immigration/editorial review, full external-link revalidation, and physical mobile Safari interactive/print layout QA. Until those gates pass, retain the public audit file as previously agreed.
+
 ## Validation
 
 Country Pages builds run Python unit tests, JS syntax checks, content tests and security scans. Browser QA verified new vacancy-source panel, archived-status warnings, 12 modules, next-lesson navigation, qualification prices and source links on Norway and Canada. Public site monitoring has a scheduled and push-triggered check; monitor result may briefly fail during publication before new URLs become live.
 
 ## Priority after this release
 
-See [BFISHERMAN_ROADMAP.md](BFISHERMAN_ROADMAP.md): candidate journey and application pack/tracker are implemented. Practical scenarios are implemented; the next priority is catalog and document source quality, alongside mobile QA and independent content review. Keep the weekly registry / official-link model selected by the project owner.
+See [BFISHERMAN_ROADMAP.md](BFISHERMAN_ROADMAP.md): candidate journey and application pack/tracker are implemented. Practical scenarios and catalog source-quality improvements are implemented; final mobile QA and independent review remain before declaring the whole roadmap complete. Keep the weekly registry / official-link model selected by the project owner.
