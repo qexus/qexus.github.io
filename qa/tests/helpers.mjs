@@ -22,11 +22,29 @@ export async function openPage(page, url) {
 export async function assertNoHorizontalOverflow(page, label) {
   const metrics = await page.evaluate(() => {
     const root = document.documentElement;
+    const viewport = window.innerWidth;
+    const suspects = root.scrollWidth > viewport + 3
+      ? [...document.querySelectorAll('*')]
+          .map(el => {
+            const box = el.getBoundingClientRect();
+            if (box.width <= 0 || box.right <= viewport + 3) return null;
+            const style = getComputedStyle(el);
+            return {
+              tag: el.tagName.toLowerCase(),
+              id: el.id || undefined,
+              className: typeof el.className === 'string' ? el.className.slice(0, 90) : undefined,
+              left: Math.round(box.left), right: Math.round(box.right),
+              width: Math.round(box.width),
+              display: style.display, position: style.position,
+              whiteSpace: style.whiteSpace,
+            };
+          }).filter(Boolean).sort((a,b) => b.right - a.right).slice(0, 12)
+      : [];
     return {
-      viewport: window.innerWidth,
-      scrollWidth: root.scrollWidth,
+      viewport, scrollWidth: root.scrollWidth,
       bodyWidth: document.body?.scrollWidth ?? 0,
       documentWidth: root.clientWidth,
+      suspects,
     };
   });
   // Some engines round fractional CSS pixels; tolerate at most 3px.
