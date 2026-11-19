@@ -14,6 +14,13 @@ test('internal audit files and QA code are not served as website assets', async 
     'https://qexus.github.io/manac/MIGRATION.md',
     'https://qexus.github.io/manac/tests/check.mjs',
     'https://qexus.github.io/manac/scripts/build_public.mjs',
+    'https://qexus.github.io/.github/project/BFISHERMAN_ROADMAP.md',
+    'https://qexus.github.io/fisheries/tests/check_content.mjs',
+    'https://qexus.github.io/fisheries/scripts/security_audit.py',
+    'https://qexus.github.io/fisheries/docs/JOBS_FEEDS.md',
+    'https://qexus.github.io/fisheries-ca/tests/check_content.mjs',
+    'https://qexus.github.io/fisheries-ca/scripts/security_audit.py',
+    'https://qexus.github.io/fisheries-ca/docs/JOBS_FEEDS.md',
   ]) {
     const response = await request.get(url, { failOnStatusCode: false });
     const status = response.status();
