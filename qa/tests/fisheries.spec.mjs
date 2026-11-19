@@ -139,6 +139,19 @@ for (const country of sitesForRun(['norway', 'canada'])) {
       });
     }
 
+    // A transient CDN miss can serve the shared footer CSS while the local
+    // guide.css is missing. Its width must still stay within the viewport.
+    test('localized footer fits if guide stylesheet fails to load', async ({ page }) => {
+      await page.route('**/guides/guide.css', route => route.abort('failed'));
+      await openPage(page, base + 'fr/');
+      await page.waitForLoadState('load');
+      const footer = page.locator('footer.qx-footer .qx-footer__inner');
+      await expect(footer).toBeVisible();
+      const borderBox = await footer.evaluate(el => getComputedStyle(el).boxSizing);
+      expect(borderBox, 'Shared footer must not depend on guide.css global box-sizing').toBe('border-box');
+      await assertNoHorizontalOverflow(page, country + ' footer without guide stylesheet');
+    });
+
     if (country === 'canada') {
       for (const lang of ['ru', 'fr', 'uk']) {
         test('province grid has readable labels on narrow and medium screens in ' + lang, async ({ page }, testInfo) => {
