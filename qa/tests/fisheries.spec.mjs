@@ -56,6 +56,7 @@ for (const country of sitesForRun(['norway', 'canada'])) {
         const errors = runtimeErrors(page);
         await openPage(page, base + '?view=practice&lang=' + lang);
         await expect(page.locator('#qp-title')).toBeVisible({ timeout: 15_000 });
+        if (lang === 'fr') expect(await page.locator('#qp-title').innerText()).not.toMatch(/[А-Яа-яЁё]/);
         await expect(page.locator('.qp-card')).toHaveCount(6);
         await expect(page.locator('.qp-guide')).toBeAttached();
         await assertNoHorizontalOverflow(page, country + ' practice ' + lang);
@@ -67,13 +68,28 @@ for (const country of sitesForRun(['norway', 'canada'])) {
         const errors = runtimeErrors(page);
         await openPage(page, base + '?view=journey&lang=' + lang);
         await expect(page.locator('#qj-title')).toBeVisible({ timeout: 15_000 });
+        if (lang === 'fr') expect(await page.locator('#qj-title').innerText()).not.toMatch(/[А-Яа-яЁё]/);
         await expect(page.locator('.qj-step')).toHaveCount(9);
         await assertNoHorizontalOverflow(page, country + ' journey ' + lang);
         await openPage(page, base + '?view=desk&lang=' + lang);
         await expect(page.locator('#qd-title')).toBeVisible({ timeout: 15_000 });
+        if (lang === 'fr') expect(await page.locator('#qd-title').innerText()).not.toMatch(/[А-Яа-яЁё]/);
         await expect(page.locator('#qd-print')).toBeVisible();
         await expect(page.locator('#qd-application-form')).toBeAttached();
         await assertNoHorizontalOverflow(page, country + ' CV ' + lang);
+        errors.assertNone();
+      });
+    }
+
+    for (const lang of ['fr', 'uk']) {
+      test('lesson permalink uses the selected language in ' + lang, async ({ page }) => {
+        const errors = runtimeErrors(page);
+        await openPage(page, base + '?view=curriculum&lang=' + lang);
+        const link = page.locator('.qf-lesson-link').first();
+        await expect(link).toBeAttached({ timeout: 15_000 });
+        await expect(link).toContainText(lang === 'fr' ? 'Lien permanent vers la leçon' : 'Постійне посилання на урок');
+        await expect(link).toHaveAttribute('href', /view=curriculum/);
+        if (lang === 'fr') expect(await link.innerText()).not.toMatch(/[А-Яа-яЁё]/);
         errors.assertNone();
       });
     }
