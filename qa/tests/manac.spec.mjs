@@ -12,6 +12,17 @@ test.describe('Manac careers — iPhone layout, filters and localized pages', ()
       await expect(page.locator('main h1').first()).toBeVisible();
       await expect(page.locator('article.job')).toHaveCount(11);
       await expect(page.locator('article.job:not([hidden])')).toHaveCount(11);
+      // Privacy and visual-integrity guardrail: crossorigin images must
+      // actually load; otherwise third-party cookie mitigation is not safe.
+      const hero = page.locator('.hero-image img');
+      await expect(hero).toHaveAttribute('crossorigin','anonymous');
+      await expect.poll(() => hero.evaluate(img => img.complete && img.naturalWidth > 0), {timeout: 20000})
+        .toBe(true);
+      const cardPhoto = page.locator('article.job .job-photo img').first();
+      await cardPhoto.scrollIntoViewIfNeeded();
+      await expect(cardPhoto).toHaveAttribute('crossorigin','anonymous');
+      await expect.poll(() => cardPhoto.evaluate(img => img.complete && img.naturalWidth > 0), {timeout: 20000})
+        .toBe(true);
       const uaLink = page.locator('.qx-language-switch a[hreflang="uk"]');
       await expect(uaLink).toHaveText('UA');
       await expect(uaLink).toHaveAttribute('href', /(?:\/uk\/|[?&]lang=uk)/);
