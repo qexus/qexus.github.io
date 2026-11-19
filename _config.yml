@@ -1,0 +1,13 @@
+# Publish only the actual website, not the repository's development workspace.
+# The site is built by GitHub Pages/Jekyll from main; code remains in public GitHub.
+exclude:
+  - .github
+  - qa
+  - scripts
+  - tests
+  - README.md
+  - node_modules
+  - vendor
+  - '*.md'
+  - '*.log'
+  - '*.zip'

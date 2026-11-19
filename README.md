@@ -15,11 +15,11 @@ All published sites use one domain `qexus.github.io`; they are maintained in sep
 
 ## Localization
 
-- **RU (original)** · **FR** · **UK** selectable in the header across all pages.
+- **RU (original)** · **FR** · **UA** selectable (the technical Ukrainian language code and URLs remain `uk`) in the header across all pages.
 - Language uses **static, indexable paths** (`/fr/`, `/uk/`, `/manac/fr/`, `/fisheries-ca/uk/guides/lesson-07.html`, etc.). Original query-based links remain a UI compatibility fallback.
 - Main portfolio, career directory and the Manac career guide have RU/FR/UK standalone pages. The employee's optional personal referral help in Manac is explicitly free on all three editions, with no guarantee of hiring.
 - All **12 lessons in both Fisheries Academies** now have full, independently indexable French and Ukrainian reading versions (48 pages). All four extended reference articles per country (professions, employers, registries, glossary) have standalone FR and UK versions (16 pages). The interactive Academy now supports localized curricula, certificate cards, job-application checklists and source libraries. Some auxiliary dashboard tools remain in Russian; do not claim the entire dashboard is translated.
-- `shared/site-i18n.js` is the source of the translation dictionary; standalone repositories currently carry synchronized local copies.
+- `shared/site-i18n.js` is the single source of the runtime translation dictionary. The standalone applications reuse this URL instead of shipping redundant copies.
 
 ## Search & sitemap
 
@@ -33,4 +33,4 @@ All published sites use one domain `qexus.github.io`; they are maintained in sep
 
 GitHub Pages for this repository builds from `main` branch. The Manac and Fisheries sites deploy from their own repositories. Do not add a duplicate `manac/` folder to this repository; it was removed after the independent Manac Pages site was verified.
 
-For a current audit and remaining limitations, see [MULTISITE_AUDIT.md](MULTISITE_AUDIT.md).
+Internal implementation notes and remaining limitations are maintained under [`.github/project/IMPLEMENTATION.md`](.github/project/IMPLEMENTATION.md) and [`.github/project/BFISHERMAN_ROADMAP.md`](.github/project/BFISHERMAN_ROADMAP.md). These are development notes, not part of the published website.
