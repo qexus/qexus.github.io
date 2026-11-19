@@ -101,7 +101,9 @@
   }
   function load(){try{const s=JSON.parse(localStorage.getItem(key)||'null');return validateSnapshot(s,country)?s:blank()}catch{return blank()}}
   let state=load();
-  if(!localStorage.getItem(key)){
+  let newDesk=false;
+  try { newDesk=!localStorage.getItem(key); } catch { newDesk=true; }
+  if(newDesk){
     try { const track=window.qxCandidateJourney?.exportState?.().profile.track;if(variants.includes(track))state.variant=track; }catch{}
   }
   let editing=null,filter='all',message='';
