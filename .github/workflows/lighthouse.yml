@@ -1,0 +1,50 @@
+name: Lighthouse · mobile performance, accessibility, SEO
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/lighthouse.yml'
+      - 'qa/lighthouserc.cjs'
+      - 'qa/summarize_lighthouse.mjs'
+  schedule:
+    - cron: '52 8 * * 0' # Weekly Sunday after deployments
+
+permissions:
+  contents: read
+
+concurrency:
+  group: qexus-lighthouse
+  cancel-in-progress: true
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 24
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: '22'
+      - name: Locate system Chrome
+        shell: bash
+        run: |
+          CHROME_PATH="$(command -v google-chrome || command -v chromium || command -v chromium-browser)"
+          test -x "$CHROME_PATH"
+          echo "CHROME_PATH=$CHROME_PATH" >> "$GITHUB_ENV"
+      - name: Lighthouse CI (mobile, all four production sites)
+        run: npx --yes @lhci/cli@0.16.0 autorun --config=qa/lighthouserc.cjs
+      - name: Summarize numerical Core Web Vital lab metrics
+        if: ${{ !cancelled() }}
+        run: node qa/summarize_lighthouse.mjs
+      - name: Keep local HTML, JSON and Markdown reports for review
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: qexus-lighthouse-mobile
+          path: |
+            qa/lighthouse-reports/
+            qa/lighthouse-summary.md
+          retention-days: 14
+          if-no-files-found: warn
