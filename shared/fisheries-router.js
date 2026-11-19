@@ -13,6 +13,33 @@
     glossary: "Словарь", documents: "Документы", salary: "Калькулятор", career: "План отклика", cert: "Курсы и цены", library: "Библиотека ведомств",
     sources: "Источники", import: "Импорт"
   };
+  // Render dynamic shortcuts directly in the visitor's selected language.
+  // The shared translator only covers recognized static strings; it must not
+  // leave Russian text behind in the French / Ukrainian quick-start panel.
+  const routeLang = new URLSearchParams(location.search).get("lang") || document.documentElement.lang || "ru";
+  const routeLocale = ["fr", "uk"].includes(routeLang) ? routeLang : "ru";
+  const routeWords = {
+    ru: {
+      quick: "Быстрый старт", start: "С чего начать", journey: "Мой маршрут",
+      employer: "Найти работодателя", profession: "Выбрать профессию",
+      training: "Начать обучение", lesson: "Постоянная ссылка на урок",
+      lessonHelp: "Можно скопировать ссылку и открыть этот урок напрямую"
+    },
+    fr: {
+      quick: "Accès rapide", start: "Par où commencer",
+      journey: "Mon parcours", employer: "Trouver un employeur",
+      profession: "Choisir un métier", training: "Commencer la formation",
+      lesson: "Lien permanent vers la leçon",
+      lessonHelp: "Copiez ce lien pour ouvrir directement cette leçon"
+    },
+    uk: {
+      quick: "Швидкий старт", start: "З чого почати", journey: "Мій маршрут",
+      employer: "Знайти роботодавця", profession: "Обрати професію",
+      training: "Почати навчання", lesson: "Постійне посилання на урок",
+      lessonHelp: "Скопіюй посилання, щоб відкрити цей урок безпосередньо"
+    }
+  };
+  const rw = routeWords[routeLocale];
   const filters = ["provinceFilter", "cat", "categoryFilter", "q",
     "searchBox", "termCat", "termSearch", "courseSearch",
     "qx-role-filter", "qx-only-fav", "qx-employer-search"];
@@ -153,8 +180,8 @@
       const anchor = document.createElement("a");
       anchor.className = "qf-lesson-link";
       anchor.href = toURL("curriculum", id);
-      anchor.textContent = "↗ Постоянная ссылка на урок " + id;
-      anchor.title = "Можно скопировать ссылку и открыть этот урок напрямую";
+      anchor.textContent = "↗ " + rw.lesson + " " + id;
+      anchor.title = rw.lessonHelp;
       body.append(anchor);
     }
   }
@@ -164,15 +191,15 @@
     if (!hero) return;
     const section = document.createElement("nav");
     section.className = "qf-first-steps";
-    section.setAttribute("aria-label", "Быстрый старт");
+    section.setAttribute("aria-label", rw.quick);
     const label = document.createElement("strong");
-    label.textContent = "С чего начать";
+    label.textContent = rw.start;
     section.append(label);
     for (const [view, text, attr] of [
-      ["journey", "Мой маршрут", "qjView"],
-      ["employers", "Найти работодателя", "qxView"],
-      ["matrix", "Выбрать профессию", "qxView"],
-      ["curriculum", "Начать обучение", "qaView"]
+      ["journey", rw.journey, "qjView"],
+      ["employers", rw.employer, "qxView"],
+      ["matrix", rw.profession, "qxView"],
+      ["curriculum", rw.training, "qaView"]
     ]) {
       const button = document.createElement("button");
       button.type = "button";
