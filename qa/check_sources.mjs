@@ -11,6 +11,7 @@ const feeds = [
   'https://qexus.github.io/fisheries/reference-data.js',
   'https://qexus.github.io/fisheries-ca/reference-data.js'
 ];
+const practicumFeed = 'https://qexus.github.io/shared/practicum.js';
 const extras = [
   { url: 'https://www.manac.com/ca/fr/compagnie/carrieres/', label: 'Manac official careers', kind: 'career' },
   { url: 'https://arbeidsplassen.nav.no/stillinger', label: 'NAV official job search', kind: 'job_search' },
@@ -89,6 +90,26 @@ async function fetchData(url) {
   if (!match) throw new Error('Reference data JSON format changed: ' + url);
   return JSON.parse(match[1]);
 }
+async function collectPracticumReferences(map) {
+  const r = await fetch(practicumFeed, { signal: AbortSignal.timeout(timeout) });
+  if (!r.ok) throw new Error('Practicum source unavailable: HTTP ' + r.status);
+  const raw = await r.text();
+  if (raw.length > 120_000) throw new Error('Practicum script unexpectedly large');
+  // Extract only the twelve literal authority links in sourceUrls. Never
+  // evaluate code or scrape user-input strings from the training UI.
+  const section = raw.match(/const sourceUrls = \{([\s\S]*?)\n  \};/);
+  if (!section) throw new Error('Practicum authority list has an unknown format');
+  const matches = [...section[1].matchAll(/'https:\/\/[^'\s]+'/g)];
+  if (matches.length !== 12) throw new Error('Expected twelve country-specific practicum sources, found ' + matches.length);
+  for (const match of matches) {
+    const link = safeUrl(match[0].slice(1, -1));
+    if (!link) throw new Error('Unsafe practicum source URL');
+    const url = link.href;
+    const item = map.get(url) || sourceItem(url, 'Practicum: safety / employment authority', 'training_scenario', null);
+    item.provenance = [...new Set([...(item.provenance || []), practicumFeed])];
+    map.set(url, item);
+  }
+}
 function collect(doc, feed, map) {
   for (const country of ['norway', 'canada']) {
     for (const e of doc.employers?.[country] || []) {
@@ -119,6 +140,8 @@ for (const feed of feeds) {
     collect(doc, feed, sources);
   } catch (e) { errors.push(String(e?.message || e)); }
 }
+try { await collectPracticumReferences(sources); }
+catch (e) { errors.push(String(e?.message || e)); }
 for (const extra of extras) sources.set(extra.url, sourceItem(extra.url, extra.label, extra.kind, null));
 
 const queue = [...sources.values()].slice(0, 90);
@@ -134,7 +157,7 @@ results.sort((a, b) => a.category.localeCompare(b.category) || a.url.localeCompa
 const counts = {};
 for (const result of results) counts[result.category] = (counts[result.category] || 0) + 1;
 const report = {
-  checkedAt: now, scope: 'HTTP availability only; not vacancy or legal validation',
+  checkedAt: now, scope: 'Curated career, qualifications and twelve practical-scenario authority links; HTTP only, not vacancy or legal validation',
   tested: results.length, counts, errors, results
 };
 writeFileSync(outputs.json, JSON.stringify(report, null, 2) + '\n', 'utf8');
@@ -168,4 +191,4 @@ if (errors.length) {
 console.log(JSON.stringify({ count: results.length, counts, feedErrors: errors.length }, null, 2));
 // Only the absence of both public catalogues is a process failure. Individual
 // external URLs remain report-only; source websites can block automation.
-if (errors.length === feeds.length) process.exitCode = 1;
+if (errors.length >= feeds.length + 1) process.exitCode = 1;
