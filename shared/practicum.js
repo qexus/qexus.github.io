@@ -48,7 +48,7 @@
       : 'https://www.mattilsynet.no/mat-og-drikke/matproduksjon/fisk-og-sjomat',
     scam: country==='canada'
       ? 'https://antifraudcentre-centreantifraude.ca/scams-fraudes/job-emploi-eng.htm'
-      : 'https://www.arbeidstilsynet.no/en/working-hours-and-organisation-of-work/knowyourrights/',
+      : 'https://www.udi.no/en/word-definitions/confirmation-of-a-job-offer/',
     contract: country==='canada'
       ? 'https://www.ircc.canada.ca/english/helpcentre/answer.asp?qnum=1200&top=17'
       : 'https://www.arbeidstilsynet.no/en/pay-and-engagement-of-employees/contract-of-employment/',
