@@ -92,7 +92,7 @@ function refreshSwitch(){
 function renderSwitch(){
  if(document.querySelector('.qx-language-switch'))return;
  const nav=document.createElement('nav');nav.className='qx-language-switch';nav.setAttribute('data-no-translate','');nav.setAttribute('aria-label',label[lang]);
- for(const [key,t] of Object.entries({ru:'RU',fr:'FR',uk:'UK'})){
+ for(const [key,t] of Object.entries({ru:'RU',fr:'FR',uk:'UA'})){
    const a=document.createElement('a');
    const url=new URL(location.href);
    const dest=url.searchParams.has('view')||url.searchParams.has('lesson')?null:staticLocalizedPath(url.pathname,key);
