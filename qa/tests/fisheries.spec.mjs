@@ -94,6 +94,55 @@ for (const country of sitesForRun(['norway', 'canada'])) {
       });
     }
 
+    if (country === 'canada') {
+      for (const lang of ['ru', 'fr', 'uk']) {
+        test('province grid has readable labels on narrow and medium screens in ' + lang, async ({ page }, testInfo) => {
+          const errors = runtimeErrors(page);
+          await openPage(page, base + '?lang=' + lang);
+          await expect(page.locator('.province-panel .province-map button')).toHaveCount(8, { timeout: 20_000 });
+          for (const width of [1440, 1137, 780, 390, 320]) {
+            await page.setViewportSize({ width, height: 900 });
+            const geometry = await page.locator('.province-panel').evaluate(panel => {
+              const map = panel.querySelector('.province-map');
+              const box = map.getBoundingClientRect();
+              const labels = [...map.querySelectorAll('button span')];
+              return {
+                panelWidth: panel.clientWidth,
+                columnCount: getComputedStyle(map).gridTemplateColumns.split(' ').length,
+                mapWidth: map.clientWidth,
+                labels: labels.map(label => {
+                  const b = label.getBoundingClientRect();
+                  const card = label.closest('button').getBoundingClientRect();
+                  return { text: label.textContent, scrollWidth: label.scrollWidth,
+                    clientWidth: label.clientWidth, x: b.x, right: b.right,
+                    cardRight: card.right, cardLeft: card.left,
+                    cardBottom: card.bottom, labelBottom: b.bottom };
+                })
+              };
+            });
+            expect(geometry.labels).toHaveLength(8);
+            for (const label of geometry.labels) {
+              expect(label.scrollWidth, width + 'px: label overflows horizontally: ' + label.text)
+                .toBeLessThanOrEqual(label.clientWidth + 2);
+              expect(label.right, width + 'px: label outside card: ' + label.text)
+                .toBeLessThanOrEqual(label.cardRight + 1);
+              expect(label.x).toBeGreaterThanOrEqual(label.cardLeft - 1);
+              expect(label.labelBottom, width + 'px: label clipped vertically: ' + label.text)
+                .toBeLessThanOrEqual(label.cardBottom + 1);
+            }
+            if (width === 1137 && geometry.panelWidth <= 690) {
+              expect(geometry.columnCount).toBeLessThanOrEqual(3);
+            }
+            await assertNoHorizontalOverflow(page, 'Canada province tiles ' + lang + ' ' + width);
+            if (width === 1137 || width === 390) {
+              await screenshot(page, testInfo, 'canada-' + lang + '-province-' + width);
+            }
+          }
+          errors.assertNone();
+        });
+      }
+    }
+
     test('mobile hamburger opens and routes without losing browser history', async ({ page }) => {
       const errors = runtimeErrors(page);
       await openPage(page, base);
