@@ -44,10 +44,16 @@ Public dashboard: https://qexus.github.io/status.html
 
 **Remaining risks:** `style-src 'unsafe-inline'`, generated `innerHTML` needs security-focused fuzz tests, full automated browser tests, and no guarantee from regex-based secret scans. GitHub Pages meta CSP is not a substitute for all security response headers.
 
+## Phase 7 — Guided candidate journey (18 November 2026)
+
+The shared candidate-journey.js / candidate-journey.css provide a manual, local-only RU/FR/UK career path for Norway and Canada. Each country has its own saved choices (shore, vessel, aquaculture; experience, languages and document-category readiness) and manually completed steps. The tool links to existing learning, qualification and employer sections and official UDI/IRCC work information, without deciding eligibility or sending applications.
+
+Both Fisheries apps include the journey in existing JSON backup/restore, validate its schema before restoring, preserve older backups and protect the open journey from background registry refreshes. The root privacy policy is updated in all three languages. CI checks the menu, history wiring, translations, data handling and backup compatibility. Full mobile browser QA remains pending.
+
 ## Validation
 
 Country Pages builds run Python unit tests, JS syntax checks, content tests and security scans. Browser QA verified new vacancy-source panel, archived-status warnings, 12 modules, next-lesson navigation, qualification prices and source links on Norway and Canada. Public site monitoring has a scheduled and push-triggered check; monitor result may briefly fail during publication before new URLs become live.
 
 ## Priority after this release
 
-See [BFISHERMAN_ROADMAP.md](BFISHERMAN_ROADMAP.md): a guided candidate journey, application pack and tracker, practical scenarios, and higher-quality source verification. Keep the weekly registry / official-link model selected by the project owner.
+See [BFISHERMAN_ROADMAP.md](BFISHERMAN_ROADMAP.md): the next priorities are the candidate application pack and tracker, practical scenarios, and higher-quality source verification; the guided candidate journey is now implemented. Keep the weekly registry / official-link model selected by the project owner.
