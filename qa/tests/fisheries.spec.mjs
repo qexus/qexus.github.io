@@ -84,6 +84,32 @@ for (const country of sitesForRun(['norway', 'canada'])) {
       });
     }
 
+    test('registry hydration keeps mobile footer outside the initial viewport', async ({ page }) => {
+      const errors = runtimeErrors(page);
+      await page.addInitScript(() => {
+        window.__qxCls = 0;
+        try {
+          new PerformanceObserver(list => {
+            for (const item of list.getEntries()) {
+              if (!item.hadRecentInput) window.__qxCls += item.value;
+            }
+          }).observe({ type: 'layout-shift', buffered: true });
+        } catch { window.__qxCls = null; } // WebKit may not implement LayoutShift.
+      });
+      await openPage(page, base);
+      await expect(page.locator('#main .hero')).toBeVisible({ timeout: 15000 });
+      await expect.poll(() => page.locator('#main .hero').evaluate(el => el.getBoundingClientRect().height)).toBeGreaterThan(100);
+      const proof = await page.evaluate(() => ({
+        minHeight: getComputedStyle(document.querySelector('#main')).minHeight,
+        viewport: innerHeight
+      }));
+      expect(parseFloat(proof.minHeight), 'Initial content must reserve viewport height').toBeGreaterThanOrEqual(proof.viewport - 3);
+      await page.waitForTimeout(1500);
+      const cls = await page.evaluate(() => window.__qxCls);
+      if (cls !== null) expect(cls, 'Hydration caused visible page jumping').toBeLessThan(0.1);
+      errors.assertNone();
+    });
+
     for (const lang of ['fr', 'uk']) {
       test('lesson permalink uses the selected language in ' + lang, async ({ page }) => {
         const errors = runtimeErrors(page);
