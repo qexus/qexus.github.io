@@ -12,7 +12,7 @@ assert(css.includes('@media(max-width:740px)'),'Mobile layout required');
 assert(router.includes('data-qd-view="desk"')&&router.includes('desk: "Пакет и отклики"'),'Desk must be a route');
 
 function boot(country,lang){
-  const events={},records=new Map(),preview={innerHTML:''},board={innerHTML:''},form={innerHTML:''},main={innerHTML:''};
+  const events={},records=new Map(),preview={innerHTML:''},board={innerHTML:''},form={innerHTML:'',scrollIntoView(){}},main={innerHTML:''};
   const label={textContent:'Пакет и отклики'};
   const document={
     documentElement:{lang},
