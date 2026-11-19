@@ -94,10 +94,20 @@ Created separate weekly source-link QA workflow https://github.com/qexus/qexus.g
 
 Published MOBILE_QA_CHECKLIST.md for safe real-iPhone Safari review of navigation, country/language switching, practical quizzes, local CV, synthetic applications and native PDF printing. **Remaining sign-off gates:** physical iPhone Safari and print preview; independent professional safety, immigration and native-speaker editorial review. Until completed, retain public AUDIT_2026-11-18.md as the project owner requested.
 
+## Phase 13 — Owner iPhone check, official-source editorial review and public-audit retirement (18–19 November 2026)
+
+User feedback: all four QEXUS sites function correctly on the user's real iPhone. This is owner-reported functional QA; it does not establish that every Safari native-print/PDF step has been independently inspected.
+
+All four BFISHERMAN roadmap priorities have been delivered: guided candidate journey, CV and application board, interactive practice, and provenance-aware catalogues. Previous Chromium/WebKit end-to-end QA: 84/84 passed. The weekly external-link monitor was expanded to capture all twelve primary-source URLs cited in safety/employment scenarios, in addition to employer and qualification links; its first expanded run (https://github.com/qexus/qexus.github.io/actions/runs/44449847115) found **37 unique links reachable**, no unavailable reference feeds. This is HTTP reachability, not proof of current job openings, course costs, or up-to-date laws.
+
+An editorial review compared the original six scenario choices against primary-source guidance from Transport Canada, the Norwegian Maritime Authority, CCOHS, Arbeidstilsynet, CFIA, Mattilsynet, UDI and IRCC, in the relevant jurisdiction. This identified and corrected Norway's broad PPE reference (now links to the Performance of Work regulations) and the aquaculture equipment-transfer source (now links to Mattilsynet's specific shared-equipment biosafety guidance). No claims of external professional certification, legal advice or native-speaker proofreading are made.
+
+With the owner-confirmed iPhone check and all four requested implementation priorities complete, the owner-requested historical public audit `AUDIT_2026-11-18.md` is retired. Implementation evidence remains in this report, the roadmap, GitHub history and Actions artifacts. Recommended but not performed: optional third-party maritime/occupational-safety, immigration-law and native-language editorial review before promoting the training as more than introductory guidance; manual visual validation of Safari system PDF page breaks remains unconfirmed.
+
 ## Validation
 
 Country Pages builds run Python unit tests, JS syntax checks, content tests and security scans. Browser QA verified new vacancy-source panel, archived-status warnings, 12 modules, next-lesson navigation, qualification prices and source links on Norway and Canada. Public site monitoring has a scheduled and push-triggered check; monitor result may briefly fail during publication before new URLs become live.
 
 ## Priority after this release
 
-See [BFISHERMAN_ROADMAP.md](BFISHERMAN_ROADMAP.md): candidate journey and application pack/tracker are implemented. Practical scenarios and catalog source-quality improvements are implemented; final mobile QA and independent review remain before declaring the whole roadmap complete. Keep the weekly registry / official-link model selected by the project owner.
+See [BFISHERMAN_ROADMAP.md](BFISHERMAN_ROADMAP.md): candidate journey and application pack/tracker are implemented. Practical scenarios, curated evidence and catalog source-quality improvements are implemented. Owner-confirmed real iPhone functionality and 84 successful browser tests close the requested four-priority delivery; the recommended specialist content/legal review and a dedicated native Safari PDF-print check are not claimed as complete. Keep the weekly registry / official-link model selected by the project owner.
