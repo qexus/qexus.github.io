@@ -7,7 +7,7 @@
   if (!nav || !main) return;
   const country = location.pathname.includes("/fisheries-ca/") ? "Canada" : "Norway";
   const names = {
-    dashboard: "Обзор", journey: "Мой маршрут", desk: "Пакет и отклики", companies: "Предприятия", jobs: "Объявления",
+    dashboard: "Обзор", journey: "Мой маршрут", desk: "Пакет и отклики", practice: "Практикум", companies: "Предприятия", jobs: "Объявления",
     fleets: "Флот", aquaculture: "Аквакультура", curriculum: "Обучение",
     matrix: "Профессии и сертификаты", employers: "Работа и контакты",
     glossary: "Словарь", documents: "Документы", salary: "Калькулятор", career: "План отклика", cert: "Курсы и цены", library: "Библиотека ведомств",
@@ -31,15 +31,16 @@
   function targetFor(view) {
     if (view === "journey") return nav.querySelector('[data-qj-view="journey"]');
     if (view === "desk") return nav.querySelector('[data-qd-view="desk"]');
+    if (view === "practice") return nav.querySelector('[data-qp-view="practice"]');
     if (view === "career") return nav.querySelector('[data-qa-view="jobs"]');
     if (["curriculum","cert","library"].includes(view)) return nav.querySelector('[data-qa-view="' + view + '"]');
     if (view === "matrix" || view === "employers") return nav.querySelector('[data-qx-view="' + view + '"]');
     return nav.querySelector('[data-view="' + view + '"]');
   }
   function routeOf(node) {
-    const button = node && node.closest("button[data-view],button[data-go],button[data-qa-view],button[data-qx-view],button[data-qj-view],button[data-qd-view]");
+    const button = node && node.closest("button[data-view],button[data-go],button[data-qa-view],button[data-qx-view],button[data-qj-view],button[data-qd-view],button[data-qp-view]");
     if (!button) return null;
-    const view = button.dataset.qaView === "jobs" ? "career" : button.dataset.qdView || button.dataset.qjView || button.dataset.qxView || button.dataset.qaView || button.dataset.view || button.dataset.go;
+    const view = button.dataset.qaView === "jobs" ? "career" : button.dataset.qpView || button.dataset.qdView || button.dataset.qjView || button.dataset.qxView || button.dataset.qaView || button.dataset.view || button.dataset.go;
     return names[view] && targetFor(view) ? view : null;
   }
   function toURL(view, lesson) {
@@ -92,12 +93,13 @@
   function titleFor(view) {
     if(view==='journey')return nav.querySelector('[data-qj-view="journey"] .qj-nav-label')?.textContent||names[view];
     if(view==='desk')return nav.querySelector('[data-qd-view="desk"] .qd-nav-label')?.textContent||names[view];
+    if(view==='practice')return nav.querySelector('[data-qp-view="practice"] .qp-nav-label')?.textContent||names[view];
     return window.qxTranslate?.(names[view]||"Обзор")||names[view]||"Обзор";
   }
   function reflect(view) {
     const selected = targetFor(view);
     window.dispatchEvent(new Event("qx:routechange"));
-    nav.querySelectorAll("button[data-view],button[data-qa-view],button[data-qx-view],button[data-qj-view],button[data-qd-view]").forEach(button => {
+    nav.querySelectorAll("button[data-view],button[data-qa-view],button[data-qx-view],button[data-qj-view],button[data-qd-view],button[data-qp-view]").forEach(button => {
       const on = button === selected;
       button.classList.toggle("active", on);
       if (on) button.setAttribute("aria-current", "page");
