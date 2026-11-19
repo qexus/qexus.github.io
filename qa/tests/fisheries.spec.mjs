@@ -97,6 +97,22 @@ for (const country of sitesForRun(['norway', 'canada'])) {
       });
     }
 
+    for (const lang of ['fr', 'uk']) {
+      test('standalone translated academy pages have UA switch in ' + lang, async ({ page }) => {
+        const errors = runtimeErrors(page);
+        for (const suffix of ['', 'guides/', 'guides/lesson-01.html', 'guides/lesson-12.html']) {
+          await openPage(page, base + lang + '/' + suffix);
+          const nav = page.locator('.translated-languages');
+          await expect(nav, 'Standalone page must have a language switch: ' + suffix).toBeVisible();
+          const ua = nav.locator('a[hreflang="uk"]');
+          await expect(ua, country + ' ' + lang + ' ' + suffix).toHaveText('UA');
+          await expect(ua).toHaveAttribute('href', /\/uk\//);
+          await assertNoHorizontalOverflow(page, country + ' localized ' + lang + '/' + suffix);
+        }
+        errors.assertNone();
+      });
+    }
+
     if (country === 'canada') {
       for (const lang of ['ru', 'fr', 'uk']) {
         test('province grid has readable labels on narrow and medium screens in ' + lang, async ({ page }, testInfo) => {
