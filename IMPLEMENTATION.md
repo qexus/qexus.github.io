@@ -58,10 +58,18 @@ Norway and Canada keep independent localStorage keys. Existing JSON backup/resto
 
 Validation: all shared mock-DOM scenarios and both country build/deploy tests passed, including form edit/delete, unsafe URL and impossible-date rejection, and data escaping. Live HTML confirms menus and CSS are published. Real-device interactive and print visual QA is not claimed.
 
+## Phase 9 — Practical safety scenarios and conceptual diagrams (18 November 2026)
+
+The shared practicum.js and practicum.css provide an interactive RU/FR/UK training section (?view=practice) for both Norway and Canada. Six authored situations cover unclear vessel instructions, damaged personal protection, food-processing contamination, fraudulent job solicitations, incomplete job conditions, and farm equipment biosecurity. Each problem gives three possible actions, a specific preferred response, a safety explanation and a direct country-specific official reference. The optional four-panel conceptual guide visualizes vessel categories, fishing-gear groups, a basic processing flow and aquaculture equipment checks. Schematics are intentionally illustrative, not technical drawings or regulatory checklists.
+
+Correct answers contribute only to a non-certifying study score; answers are saved in separate country-local localStorage keys. The existing JSON export/restore now includes optional practice state, with strict validation of the country, known question IDs and permitted answer values. Older backups without that field remain importable. The shared router supports deep links, History and localized titles; background registry refresh cannot replace an active practice view. French and Ukrainian landing pages include direct links to the new module.
+
+QA: Node mock-DOM scenario/translation checks, payload-shape tests, static accessibility assertions, country CI deployments and public asset verification. No automatic data transmission. Official references were rechecked against regulator/authority pages. Pending: real-device interactive layout, specialist safety editorial review and native-speaker translation proofreading. Voice pronunciation and formal certificates were not implemented.
+
 ## Validation
 
 Country Pages builds run Python unit tests, JS syntax checks, content tests and security scans. Browser QA verified new vacancy-source panel, archived-status warnings, 12 modules, next-lesson navigation, qualification prices and source links on Norway and Canada. Public site monitoring has a scheduled and push-triggered check; monitor result may briefly fail during publication before new URLs become live.
 
 ## Priority after this release
 
-See [BFISHERMAN_ROADMAP.md](BFISHERMAN_ROADMAP.md): candidate journey and application pack/tracker are implemented. The next priorities are practical scenarios and higher-quality source verification. Keep the weekly registry / official-link model selected by the project owner.
+See [BFISHERMAN_ROADMAP.md](BFISHERMAN_ROADMAP.md): candidate journey and application pack/tracker are implemented. Practical scenarios are implemented; the next priority is catalog and document source quality, alongside mobile QA and independent content review. Keep the weekly registry / official-link model selected by the project owner.
