@@ -36,6 +36,18 @@
     next:l('Подготовка → безопасное действие → проверка источника','Préparation → geste sûr → vérification de la source','Підготовка → безпечна дія → перевірка джерела'),
     reviewed:l('Содержание: 18 ноября 2026. Перед практикой перепроверь официальный источник.','Contenu : 18 novembre 2026. Revérifiez la source officielle avant d’appliquer les consignes.','Зміст: 18 листопада 2026. Перед практикою перевір офіційне джерело.')
   };
+  const diagrams = {
+    heading:l('Наглядные схемы','Schémas pour comprendre','Наочні схеми'),
+    note:l('Упрощённые ориентиры, не технические чертежи. Реальное оборудование, порядок операций и требования зависят от предприятия или типа судна.','Schémas simplifiés, non des dessins techniques. L’équipement, l’ordre des étapes et les obligations dépendent du navire ou de l’établissement.','Спрощені орієнтири, не технічні креслення. Обладнання, порядок дій і вимоги залежать від підприємства або судна.'),
+    types:l('Примеры промысловых судов','Exemples de bateaux de pêche','Приклади промислових суден'),
+    typeNames:[l('Траулер','Chalutier','Траулер'),l('Ярусолов','Palangrier','Ярусолов'),l('Малое прибрежное судно','Petit bateau côtier','Мале прибережне судно')],
+    gear:l('Основные группы снастей','Grandes familles d’engins de pêche','Основні групи снастей'),
+    gearNames:[l('Сети / тралы','Filets / chaluts','Сітки / трали'),l('Лески / крючки','Lignes / hameçons','Ліски / гачки'),l('Ловушки / горшки','Casiers / nasses','Пастки / коші')],
+    process:l('Пример производственного потока','Exemple de chaîne de transformation','Приклад виробничого потоку'),
+    processNames:[l('Приём сырья','Réception','Приймання сировини'),l('Сортировка','Tri','Сортування'),l('Санитарный контроль','Contrôle d’hygiène','Санітарний контроль'),l('Упаковка','Emballage','Пакування')],
+    farm:l('Биобезопасность при перемещении инвентаря','Biosécurité lors du transfert de matériel','Біобезпека під час переміщення інвентарю'),
+    farmNames:[l('Статус площадки','Statut du site','Статус об’єкта'),l('Протокол очистки','Procédure de nettoyage','Протокол очищення'),l('Разрешение к применению','Autorisation d’utilisation','Дозвіл на використання')]
+  };
   const sourceUrls = {
     vessel: country==='canada'
       ? 'https://tc.canada.ca/en/marine-transportation/marine-safety/ship-safety-bulletins/fishing-vessels-safety-procedures-crew-familiarization-ssb-no-14-2024'
@@ -142,13 +154,29 @@
   function load(){
     try{const data=JSON.parse(localStorage.getItem(storeKey)||'null');return validateSnapshot(data,country)?data:fresh()}catch{return fresh();}
   }
-  let state=load(),category='all',feedback='';
+  let state=load(),category='all',feedback='',guideOpen=false;
   function save(){
     try{localStorage.setItem(storeKey,JSON.stringify(state));return true;}
     catch {feedback=labels.failSave;return false;}
   }
   function safe(v){return String(v??'').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','\'':'&#39;'}[c]));}
   function correctCount(){return scenarios.filter(s=>state.answers[s.id]===s.correct).length;}
+  function schematicHTML(){
+    const rows=[
+      {title:diagrams.types,items:diagrams.typeNames,icons:['🚢','⚓','🛥️'],flow:false,source:sourceUrls.vessel},
+      {title:diagrams.gear,items:diagrams.gearNames,icons:['▱','⌁','▣'],flow:false,source:sourceUrls.vessel},
+      {title:diagrams.process,items:diagrams.processNames,icons:['①','②','③','④'],flow:true,source:sourceUrls.hygiene},
+      {title:diagrams.farm,items:diagrams.farmNames,icons:['①','②','③'],flow:true,source:sourceUrls.aqua}
+    ];
+    return '<details class="qp-guide"'+(guideOpen?' open':'')+'><summary>'+safe(diagrams.heading)+'</summary>'+
+      '<p class="qp-guide-note">'+safe(diagrams.note)+'</p><div class="qp-diagram-grid">'+
+      rows.map((row,i)=>'<figure class="qp-diagram"><figcaption>'+safe(row.title)+'</figcaption>'+
+      '<div class="qp-diagram-track" role="group" aria-label="'+safe(row.title)+'">'+
+      row.items.map((label,j)=>'<div class="qp-diagram-unit"><span class="qp-diagram-icon" aria-hidden="true">'+safe(row.icons[j])+'</span>'+
+      '<span>'+safe(label)+'</span></div>').join(row.flow?'<span class="qp-diagram-arrow" aria-hidden="true">→</span>':'<span class="qp-diagram-sep" aria-hidden="true">·</span>')+
+      '</div><a href="'+safe(row.source)+'" target="_blank" rel="noopener noreferrer">'+safe(labels.reference)+' ↗</a></figure>').join('')+
+      '</div></details>';
+  }
   function render() {
     const main=document.getElementById('main');if(!main)return;
     const shown=scenarios.filter(s=>category==='all'||s.category===category);
@@ -162,6 +190,7 @@
       '<div class="qp-score"><strong>'+completed+' / '+scenarios.length+'</strong> '+safe(labels.count)+'</div></div>'+
       '<div class="qp-progress" role="progressbar" aria-label="'+safe(labels.count)+'" aria-valuemin="0" aria-valuemax="'+scenarios.length+'" aria-valuenow="'+completed+'"><span style="width:'+(100*completed/scenarios.length)+'%"></span></div>'+
       '<div class="qp-flow" aria-label="'+safe(labels.next)+'"><span>'+safe(labels.next)+'</span></div>'+
+      schematicHTML()+
       '<div class="qp-exercises">'+shown.map((s,i)=>{
         const chosen=state.answers[s.id];
         const answered=Number.isInteger(chosen);
@@ -182,6 +211,9 @@
     document.getElementById('sidebar')?.classList.remove('open');
     document.getElementById('menuToggle')?.setAttribute('aria-expanded','false');
   }
+  document.addEventListener('toggle',e=>{
+    if(e.target?.matches?.('.qp-guide'))guideOpen=!!e.target.open;
+  },true);
   document.addEventListener('click',e=>{
     const nav=e.target.closest('[data-qp-view="practice"]');
     if(nav){e.preventDefault();render();return;}
