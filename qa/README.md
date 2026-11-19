@@ -50,3 +50,12 @@ All candidate names, CV snippets, and employer names used in the browser tests a
 Third-party content, font loading, public network availability and GitHub Pages propagation can occasionally cause failures. Recheck the latest deployment before rerunning.
 
 Visual QA cannot certify the legal accuracy of employment rules or occupational training content.
+
+## Weekly public-source link review
+
+`.github/workflows/source-qa.yml` runs every Tuesday, manually or when its checker changes. `node qa/check_sources.mjs` reads the **published**, curated Fisheries employer and qualification directories and checks the reachable HTTP(S) status of their public official pages, plus NAV, Job Bank and Manac's careers site.
+
+- Results appear in the GitHub Actions artifact `qexus-source-link-review` as `source-link-health.json` and `source-link-health.md` (14-day retention).
+- A valid HTTP status means the URL was reachable, **not** that the content is accurate or a vacancy is open. Requests returning 401/403/429/503 or similar are classified as *unverified*, not as proof of a broken link.
+- A 404/410 result is reported as a *possible* broken link for manual follow-up. The script does not update manual review dates or edit live website data automatically.
+- This checker uses the Node standard library and network requests to public web pages. No extra browser service, API token, user account, login or applicant data is used.
