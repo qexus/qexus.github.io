@@ -44,6 +44,9 @@ for (const country of sitesForRun(['norway', 'canada'])) {
           expect(headerGeometry.topBottom).toBeGreaterThan(headerGeometry.crumbY);
         }
         await expect(page.locator('footer.qx-footer')).toBeVisible();
+        const uaLink = page.locator('.qx-language-switch a[hreflang="uk"]');
+        await expect(uaLink).toHaveText('UA');
+        await expect(uaLink).toHaveAttribute('href', /(?:\/uk\/|[?&]lang=uk)/);
         await assertNoHorizontalOverflow(page, country + ' dashboard ' + lang);
         await screenshot(page, testInfo, country + '-' + lang + '-dashboard');
         await page.locator('footer.qx-footer').scrollIntoViewIfNeeded();
