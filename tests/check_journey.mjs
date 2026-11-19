@@ -60,8 +60,8 @@ assert.equal(norway.app.validateSnapshot({...snapshot,profile:{...snapshot.profi
 assert.equal(norway.app.validateSnapshot({...snapshot,profile:{...snapshot.profile,track:'other'}},'norway'),false);
 assert.equal(norway.app.validateSnapshot({...snapshot,prototype:{private:'x'}},'norway'),false);
 
-const change=(app,field,value,checked)=>app.listeners.change({
-  target:{dataset:{[field]:value},value,checked,closest(){return true;}}
+const change=(app,field,value,checked,selectField)=>app.listeners.change({
+  target:{dataset:{[field]:selectField||value},value,checked,closest(){return true;}}
 });
 change(norway,'qjLanguage','en',true);
 assert(norway.main.innerHTML.includes('Языки указаны'));
@@ -70,7 +70,7 @@ assert(norway.main.innerHTML.includes('CV отмечено готовым'));
 change(norway,'qjComplete','eligibility',true);
 assert.equal(norway.app.exportState().completed.eligibility,true);
 assert(norway.store.has('qexus-candidate-journey-norway-v1'),'Manual progress persisted on device');
-change(norway,'qjField','vessel',false);
+change(norway,'qjField','vessel',false,'track');
 assert.equal(norway.app.exportState().profile.track,'vessel');
 assert.equal(Object.keys(norway.app.exportState().completed).length,0,'Changing track resets stale completion');
 assert(norway.main.innerHTML.includes('обязанности на борту'));
@@ -78,7 +78,7 @@ assert(norway.main.innerHTML.includes('view=cert'));
 
 const experienced=boot('canada','fr');
 assert.equal(experienced.navLabel.textContent,'Mon parcours');
-change(experienced,'qjField','experienced',false);
+change(experienced,'qjField','experienced',false,'experience');
 assert.equal(experienced.app.steps().length,8,'Experienced candidate skips orientation');
 experienced.app.render();
 assert(experienced.main.innerHTML.includes('Mon parcours vers l’emploi'));
