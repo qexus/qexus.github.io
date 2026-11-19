@@ -54,7 +54,7 @@
       : 'https://www.sdir.no/en/Seafarers/Certificates/requirements-for-working-on-fishing-vessels/',
     ppe: country==='canada'
       ? 'https://www.ccohs.ca/oshanswers/prevention/ppe/designin.html'
-      : 'https://www.arbeidstilsynet.no/en/laws-and-regulations/laws/working-environment-act/',
+      : 'https://www.arbeidstilsynet.no/en/laws-and-regulations/regulations/regulations-concerning-the-performance-of-work/',
     hygiene: country==='canada'
       ? 'https://inspection.canada.ca/en/food-safety-industry/preventive-control-plans/controls-food/fish'
       : 'https://www.mattilsynet.no/mat-og-drikke/matproduksjon/fisk-og-sjomat',
@@ -66,13 +66,13 @@
       : 'https://www.arbeidstilsynet.no/en/pay-and-engagement-of-employees/contract-of-employment/',
     aqua: country==='canada'
       ? 'https://inspection.canada.ca/en/animal-health/aquatic-animals/aquatic-animal-biosecurity'
-      : 'https://mattilsynet.no/en/fish-and-aquaculture/health-status-of-approved-aquaculture-facilities'
+      : 'https://www.mattilsynet.no/fisk-og-akvakultur/biosikkerhetsplan-i-akvakulturanlegg/arsaker-til-smittespredning-og-eksempler-pa-biosikkerhetstiltak/utstyr-og-annet-som-passivt-kan-overfore-smittestoffer/risikoreduserende-tiltak-ved-bruk-av-felles-utstyr'
   };
   const scenarios = [
     {
       id:'vessel-command', category:'vessel', icon:'⚓', source:sourceUrls.vessel,
       title:l('Непонятная команда на палубе','Une consigne mal comprise sur le pont','Незрозуміла команда на палубі'),
-      scene:l('Ты впервые на рыболовном судне. Во время работы с снастями получаешь команду, но из-за шума и языка не понимаешь её.','C’est votre première sortie en mer. Durant la manipulation des engins de pêche, le bruit vous empêche de comprendre un ordre.','Ти вперше на риболовному судні. Під час роботи зі снастями через шум і мову не розумієш команду.'),
+      scene:l('Ты впервые на рыболовном судне. Во время работы со снастями получаешь команду, но из-за шума и языка не понимаешь её.','C’est votre première sortie en mer. Durant la manipulation des engins de pêche, le bruit vous empêche de comprendre un ordre.','Ти вперше на риболовному судні. Під час роботи зі снастями через шум і мову не розумієш команду.'),
       choices:[
         l('Повторить действия соседа наугад, чтобы не задерживать работу.','Imiter un collègue sans être sûr pour ne pas retarder le travail.','Навмання повторити дії колеги, щоб не затримувати роботу.'),
         l('Не выполнять непонятное опасное действие, попросить повторить команду и показать безопасную процедуру.','Ne pas exécuter la manœuvre risquée ; demander la consigne à nouveau et une démonstration sûre.','Не виконувати незрозумілу небезпечну дію, попросити повторити команду й показати безпечний порядок.'),
