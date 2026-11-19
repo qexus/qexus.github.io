@@ -69,6 +69,19 @@ for(const country of ['norway','canada']){
     assert.equal(h.api.exportState().applications.length,1,'Reject non-HTTPS URL');
     submit(h,{...sample,company:'Bad date',date:'2026-02-30'});
     assert.equal(h.api.exportState().applications.length,1,'Reject impossible calendar dates');
+    // Editing must update the existing application, not create a duplicate.
+    const existingId=h.api.exportState().applications[0].id;
+    h.events.click({target:{closest(selector){
+      if(selector==='[data-qd-view="desk"]')return null;
+      if(selector==='.qd-wrap')return {};
+      if(selector==='[data-qd-edit]')return {dataset:{qdEdit:existingId}};
+      return null;
+    }}});
+    assert(h.form.innerHTML.includes('Harbor Test Company'),'Edit form is filled from existing entry');
+    submit(h,{...sample,company:'Updated Company',status:'interview'});
+    assert.equal(h.api.exportState().applications.length,1,'Editing cannot duplicate entries');
+    assert.equal(h.api.exportState().applications[0].status,'interview');
+    assert.equal(h.api.exportState().applications[0].company,'Updated Company');
     const exported=h.api.exportState();
     assert(h.api.restoreState(exported),'Valid JSON snapshot restores');
     assert.equal(h.api.exportState().applications.length,1);
@@ -81,6 +94,14 @@ for(const country of ['norway','canada']){
     const button=(selector)=>selector==='[data-qd-print]'?{}:null;
     h.events.click({target:{closest(selector){if(selector==='[data-qd-view="desk"]')return null;if(selector==='.qd-wrap')return {};return button(selector);}}});
     assert.equal(h.prints,1,'User print action triggers browser PDF/print dialog');
+    const id=h.api.exportState().applications[0].id;
+    h.events.click({target:{closest(selector){
+      if(selector==='[data-qd-view="desk"]')return null;
+      if(selector==='.qd-wrap')return {};
+      if(selector==='[data-qd-delete]')return {dataset:{qdDelete:id}};
+      return null;
+    }}});
+    assert.equal(h.api.exportState().applications.length,0,'Deleting a record is local and immediate');
   }
 }
 console.log('Passed: six country/language combinations, safe CV and letter preview, local tracker, date and URL validation, strict backup, no auto-send and print.');
