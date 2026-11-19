@@ -33,4 +33,4 @@ All published sites use one domain `qexus.github.io`; they are maintained in sep
 
 GitHub Pages for this repository builds from `main` branch. The Manac and Fisheries sites deploy from their own repositories. Do not add a duplicate `manac/` folder to this repository; it was removed after the independent Manac Pages site was verified.
 
-Internal implementation notes and remaining limitations are maintained under [`.github/project/IMPLEMENTATION.md`](.github/project/IMPLEMENTATION.md) and [`.github/project/BFISHERMAN_ROADMAP.md`](.github/project/BFISHERMAN_ROADMAP.md). These are development notes, not part of the published website.
+Public repositories contain the source code, automated checks, and deployment configuration. Only website assets are intended to be deployed to GitHub Pages; private project notes and old audits are not tracked in the current branch.
