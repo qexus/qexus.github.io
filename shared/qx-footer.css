@@ -7,6 +7,7 @@
 }
 footer.qx-footer{display:block;padding:0;margin:0;min-width:0;}
 .qx-footer .qx-footer__inner{
+  box-sizing:border-box;
   width:100%;max-width:1320px;margin:0 auto;
   padding:25px clamp(16px,3vw,35px) 30px;
   display:flex;align-items:center;justify-content:space-between;
