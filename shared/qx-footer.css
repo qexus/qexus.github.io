@@ -1,11 +1,12 @@
-/* qexus lab: one responsive footer design for portfolio, Fisheries and Manac. */
-.qx-footer,.page>footer{
+/* qexus lab: one responsive footer for every page of the portfolio, Fisheries and Manac (markup v2: tools/footer.py). */
+footer.qx-footer,.page>footer:not(.qx-footer){
   border-top:1px solid #2b4b5d;
   background:linear-gradient(180deg,rgba(17,43,56,.55),rgba(7,22,35,.15));
   color:#98b2bf;
   font:400 12px/1.65 Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
 }
-footer.qx-footer{display:block;padding:0;margin:0;min-width:0;}
+footer.qx-footer{display:block;padding:0;margin:0;min-width:0;width:auto;max-width:none;text-align:left;}
+footer.qx-footer .qx-footer__note a{font-weight:600;}
 .qx-footer .qx-footer__inner{
   box-sizing:border-box;
   width:100%;max-width:1320px;margin:0 auto;
@@ -20,16 +21,16 @@ footer.qx-footer{display:block;padding:0;margin:0;min-width:0;}
   display:flex;flex:1 1 260px;align-items:center;justify-content:flex-end;
   flex-wrap:wrap;gap:9px 19px;min-width:0;
 }
-.qx-footer a,.page>footer a{color:#a5ddd3;text-decoration:none;text-underline-offset:4px;font-weight:650;}
-.qx-footer a:hover,.page>footer a:hover{color:#e6fff7;text-decoration:underline;}
-.qx-footer a:focus-visible,.page>footer a:focus-visible{outline:2px solid #4adac2;outline-offset:4px;border-radius:3px;}
+.qx-footer a,.page>footer:not(.qx-footer) a{color:#a5ddd3;text-decoration:none;text-underline-offset:4px;font-weight:650;}
+.qx-footer a:hover,.page>footer:not(.qx-footer) a:hover{color:#e6fff7;text-decoration:underline;}
+.qx-footer a:focus-visible,.page>footer:not(.qx-footer) a:focus-visible{outline:2px solid #4adac2;outline-offset:4px;border-radius:3px;}
 /* Existing main-site footers use simpler markup but the same visual treatment. */
-.page>footer{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;
+.page>footer:not(.qx-footer){display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;
   gap:12px 24px;padding:25px 0 38px;color:#98b2bf;font-size:12px;}
-.page>footer>span:first-child{color:#e0eff0;font-weight:750;}
+.page>footer:not(.qx-footer)>span:first-child{color:#e0eff0;font-weight:750;}
 @media(max-width:680px){
   .qx-footer .qx-footer__inner{padding:21px 16px 27px;align-items:flex-start;flex-direction:column;gap:14px;}
   .qx-footer .qx-footer__meta,.qx-footer .qx-footer__links{flex:0 1 auto;width:100%;}
   .qx-footer .qx-footer__links{justify-content:flex-start;gap:10px 18px;}
-  .page>footer{align-items:flex-start;flex-direction:column;gap:7px;padding:22px 0 30px;}
+  .page>footer:not(.qx-footer){align-items:flex-start;flex-direction:column;gap:7px;padding:22px 0 30px;}
 }

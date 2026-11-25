@@ -29,6 +29,6 @@ for(const token of ['.qx-footer__inner','.qx-footer__meta','.qx-footer__links','
 for(const path of ['index.html','work.html','fr/index.html','fr/work.html','uk/index.html','uk/work.html']){
  const page=fs.readFileSync(path,'utf8');
  assert(page.includes('site-i18n.css'),'Root locale page must load common stylesheet: '+path);
- assert(page.includes('<footer>'),'Missing footer in '+path);
+ assert(page.includes('<footer class="qx-footer" data-qx-footer="v2">'),'Missing shared footer in '+path);
 }
 console.log('Root RU/FR/UK pages load unified footer stylesheet.');

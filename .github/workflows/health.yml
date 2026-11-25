@@ -51,6 +51,8 @@ jobs:
           node tests/check_i18n.mjs
           node tests/check_static_language_labels.mjs
           node tests/check_seo_meta.mjs
+          node tests/check_footer.mjs
+          node tests/check_local_assets.mjs
       - name: Test candidate journey (Norway and Canada)
         run: |
           node --check shared/candidate-journey.js
