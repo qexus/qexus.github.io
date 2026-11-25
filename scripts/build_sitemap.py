@@ -26,7 +26,7 @@ CANONICAL = ORIGINAL + LOCALIZED_PORTAL + LOCALIZED_MANAC + LOCALIZED_FISHERIES 
 NAMESPACE = "http://www.sitemaps.org/schemas/sitemap/0.9"
 ET.register_namespace("", NAMESPACE)
 
-def build(when="2026-11-17"):
+def build(when="2026-11-25"):
     assert len(CANONICAL)==126 and len(set(CANONICAL))==126
     root=ET.Element(f"{{{NAMESPACE}}}urlset")
     for path in CANONICAL:

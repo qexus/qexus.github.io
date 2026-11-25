@@ -38,7 +38,7 @@ jobs:
           node-version: '22'
       - name: Install pinned Playwright test runner
         working-directory: qa
-        run: npm install --no-audit --no-fund --ignore-scripts
+        run: npm ci --no-audit --no-fund --ignore-scripts
       - name: Install Chromium and WebKit with system dependencies
         working-directory: qa
         run: npx playwright install --with-deps chromium webkit

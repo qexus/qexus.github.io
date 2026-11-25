@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+@import url('/assets/fonts/fonts.css');
 :root{color-scheme:dark;--bg:#071523;--panel:#0d2031;--line:#244358;--txt:#eaf4f8;--muted:#91acba;--mint:#4adac2;--blue:#69afd1;font-family:'DM Sans',-apple-system,BlinkMacSystemFont,Arial,sans-serif}
 *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--txt)}a{text-decoration:none;color:inherit}
 .page{max-width:1200px;margin:0 auto;padding:0 34px}
